@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Login } from "./pages/Login";
 import { Patients } from "./pages/Patients";
 import { Layout } from "./components/Layout";
-
+import { PatientDashboard } from "./pages/PatientDashboard";
 const App = () => {
   return (
     <BrowserRouter>
@@ -14,7 +14,12 @@ const App = () => {
         <Route path="/login" component={Login} />
         <Layout>
           <Route>
-            <Route path="/app/patients" component={Patients} />
+            <Route exact path="/app/patients" component={Patients} />
+            <Route
+              exact
+              path="/app/patients/:id"
+              component={PatientDashboard}
+            />
           </Route>
         </Layout>
       </Switch>
