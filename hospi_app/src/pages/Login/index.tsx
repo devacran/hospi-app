@@ -1,17 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 import { Form, Button } from "react-bootstrap";
-import styles from "./Login.module.scss";
-export const Login = () => {
+import { useHistory } from "react-router-dom";
+import styles from "./styles.module.scss";
+export const Login: FC = () => {
+  const history = useHistory();
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    history.push("/patients");
+  };
   return (
     <div className={styles.container}>
-      <Form>
-        Ingresa tus credenciales
+      <Form onSubmit={onSubmit}>
+        <div className="h2">Ingarese sus credenciales</div>
         <Form.Group>
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
@@ -21,7 +24,7 @@ export const Login = () => {
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Submit
+          Iniciar Sesion
         </Button>
       </Form>
     </div>
