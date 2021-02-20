@@ -1,0 +1,14 @@
+.card {
+  display: grid;
+}
+.cardContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.lateralBtns {
+  display: flex;
+  flex-direction: column;
+  button {
+    margin: 8px;
+  }
+}

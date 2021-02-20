@@ -6,7 +6,7 @@ export const Login: FC = () => {
   const history = useHistory();
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    history.push("/patients");
+    history.push("/app/patients");
   };
   return (
     <div className={styles.container}>
