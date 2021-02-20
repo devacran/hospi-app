@@ -4,6 +4,22 @@
 .cardContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  height: 100%;
+  div {
+    font-weight: 500;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    span {
+      font-weight: normal;
+    }
+  }
 }
 .lateralBtns {
   display: flex;

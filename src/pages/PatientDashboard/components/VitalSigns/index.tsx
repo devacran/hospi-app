@@ -13,19 +13,28 @@ export const VitalSigns = () => {
       </div>
       <div className={styles.params}>
         <div>
-          <span>32g</span>Sttus 1
+          <span>
+            32<span>g</span>
+          </span>
+          Sttus 1
         </div>
         <div>
-          <span>32g</span>Sttus 1
+          <span>
+            32<span>g</span>
+          </span>
+          Sttus 1
         </div>
         <div>
-          <span>32g</span>Sttus 1
+          <span>
+            32<span>g</span>
+          </span>
+          Sttus 1
         </div>
         <div>
-          <span>32g</span>Sttus 1
-        </div>
-        <div>
-          <span>32g</span>Sttus 1
+          <span>
+            32<span>g</span>
+          </span>
+          Sttus 1
         </div>
       </div>
     </Card>

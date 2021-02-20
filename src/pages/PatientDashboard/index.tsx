@@ -14,21 +14,30 @@ export const PatientDashboard = () => {
               <div className={styles.cardContent}>
                 <div>
                   <div>
-                    <span>Nombre:</span>Juan Antonio
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
                   </div>
                   <div>
-                    <span>Sexo:</span> Masculino
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
                   </div>
                   <div>
-                    <span>Edad:</span> 81 años
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <span>Medico:</span> Juan Antonio
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
                   </div>
                   <div>
-                    <span>Expediente:</span> Masculino
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
+                  </div>
+                  <div>
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
                   </div>
                 </div>
               </div>
@@ -36,12 +45,32 @@ export const PatientDashboard = () => {
             <Card>
               <div className={styles.cardContent}>
                 <div>
-                  <div>Estatus: Juan Antonio</div>
-                  <div>Dias de Hospitalizacion: Masculino</div>
+                  <div>
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
+                  </div>
+                  <div>
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
+                  </div>
+                  <div>
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
+                  </div>
                 </div>
                 <div>
-                  <div>No de Cuenta: Juan Antonio</div>
-                  <div>No de Cama: Masculino</div>
+                  <div>
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
+                  </div>
+                  <div>
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
+                  </div>
+                  <div>
+                    <span>Nombre:</span>
+                    <span>Juan Antonio</span>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -57,8 +86,10 @@ export const PatientDashboard = () => {
         </div>
       </div>
       <div className="row mt-5">
-        <div className="col-12 p-3 border bg-light">
-          <VitalSigns />
+        <div className="col-12 ">
+          <div className="p-3 border bg-light">
+            <VitalSigns />
+          </div>
         </div>
       </div>
     </div>
