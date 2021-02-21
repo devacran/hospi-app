@@ -7,6 +7,7 @@ import { Login } from "./pages/Login";
 import { Patients } from "./pages/Patients";
 import { Layout } from "./components/Layout";
 import { PatientDashboard } from "./pages/PatientDashboard";
+import { VitalSigns } from "./pages/VitalSigns";
 const App = () => {
   return (
     <BrowserRouter>
@@ -19,6 +20,11 @@ const App = () => {
               exact
               path="/app/patients/:id"
               component={PatientDashboard}
+            />
+            <Route
+              exact
+              path="/app/patients/:id/vital-signs"
+              component={VitalSigns}
             />
           </Route>
         </Layout>

@@ -3,6 +3,7 @@ import { Card, Button } from "react-bootstrap";
 import cx from "classnames";
 import styles from "./styles.module.scss";
 import { VitalSigns } from "./components/VitalSigns";
+import { Link } from "react-router-dom";
 
 export const PatientDashboard = () => {
   return (
@@ -78,7 +79,9 @@ export const PatientDashboard = () => {
         </div>
         <div className="col-4">
           <div className={cx("p-3 border bg-light", styles.lateralBtns)}>
-            <Button>Medicamentos</Button>
+            <Button>
+              <Link to="vital-signs">Medicamentos</Link>
+            </Button>
             <Button>Diagnosticos del Paciente</Button>
             <Button>Estado de cuenta</Button>
             <Button>Editar Informacion</Button>
