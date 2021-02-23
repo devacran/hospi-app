@@ -20,13 +20,9 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(
-  date: string,
-  temp: string,
-  glucose: number,
-  heartRate: number,
-  bloodPressure: number
-) {
+export function rowCreator<T>(
+  rowValues: T[]
+): Record<string | typeof [], JSX.Element | T> {
   const actions = (
     <>
       <Close />
@@ -35,12 +31,31 @@ function createData(
       <Check />
     </>
   );
-  return { date, temp, glucose, heartRate, bloodPressure, actions };
+  return { ...rowValues, actions };
+}
+type rowCreator = {
+  actions: JSX.Element;
+};
+
+export function columnCreator(columnValue: string) {
+  return <TableCell align="right">columnValue</TableCell>;
 }
 
-const rows = [createData("Frozen yoghurt", "asda", 45, 45, 54)];
+const rows = [
+  rowCreator<string | number>(["Frozen yoghurt", "asda", 45, 45, 54]),
+];
 
-export const VitalSigns = () => {
+type VitalSignsProps = {
+  rows: [];
+};
+export const VitalSigns = ({
+  rows,
+  cols,
+  onDelete,
+  onCancel,
+  onConfirm,
+  onAdd,
+}) => {
   const classes = useStyles();
 
   return (
@@ -48,12 +63,9 @@ export const VitalSigns = () => {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Fecha</TableCell>
-            <TableCell align="right">Temp</TableCell>
-            <TableCell align="right">Nivel de Glucosa</TableCell>
-            <TableCell align="right">Ritmo Cardiaco</TableCell>
-            <TableCell align="right">Presion Arterial </TableCell>
-            <TableCell align="right">Acciones </TableCell>
+            {cols.map((name) => (
+              <TableCell align="right">Name</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
