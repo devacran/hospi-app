@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,9 +20,9 @@ const useStyles = makeStyles({
   },
 });
 
-export function rowCreator<T>(
-  rowValues: T[]
-): Record<string | typeof [], JSX.Element | T> {
+export type RowCreator = Array<JSX.Element | string | number>;
+
+export function rowCreator(rowValues: Array<string | number>): RowCreator {
   const actions = (
     <>
       <Close />
@@ -31,25 +31,20 @@ export function rowCreator<T>(
       <Check />
     </>
   );
-  return { ...rowValues, actions };
+  return [...rowValues, actions];
 }
-type rowCreator = {
-  actions: JSX.Element;
-};
-
-export function columnCreator(columnValue: string) {
-  return <TableCell align="right">columnValue</TableCell>;
-}
-
-const rows = [
-  rowCreator<string | number>(["Frozen yoghurt", "asda", 45, 45, 54]),
-];
 
 type VitalSignsProps = {
-  rows: [];
+  rowsData: Array<string | number>[];
+  cols: Array<string>;
+  onDelete: () => void;
+  onCancel: () => void;
+  onConfirm: () => void;
+  onAdd: () => void;
 };
-export const VitalSigns = ({
-  rows,
+
+export const VitalSigns: FC<VitalSignsProps> = ({
+  rowsData,
   cols,
   onDelete,
   onCancel,
@@ -57,7 +52,6 @@ export const VitalSigns = ({
   onAdd,
 }) => {
   const classes = useStyles();
-
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -69,15 +63,11 @@ export const VitalSigns = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.date}>
-              <TableCell component="th" scope="row">
-                {row.date}
-              </TableCell>
-              <TableCell align="right">{row.glucose}</TableCell>
-              <TableCell align="right">{row.heartRate}</TableCell>
-              <TableCell align="right">{row.bloodPressure}</TableCell>
-              <TableCell align="right">{row.actions}</TableCell>
+          {rowsData.map((row: Array<string | number>) => (
+            <TableRow>
+              {row.map((value) => (
+                <TableCell align="right">value</TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>
