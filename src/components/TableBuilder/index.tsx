@@ -20,18 +20,10 @@ const useStyles = makeStyles({
   },
 });
 
-export type RowCreator = Array<JSX.Element | string | number>;
+export type RowCreator = (string | number)[];
 
 export function rowCreator(rowValues: (string | number)[]): RowCreator {
-  const actions = (
-    <>
-      <Close />
-      <Create />
-      <RemoveCircleOutlineOutlined />
-      <Check />
-    </>
-  );
-  return [...rowValues, actions];
+  return [...rowValues];
 }
 
 type TableBuilderProps = {
@@ -41,6 +33,7 @@ type TableBuilderProps = {
   onCancel: () => void;
   onConfirm: () => void;
   onAdd: () => void;
+  hasActions: boolean;
 };
 
 export const TableBuilder: FC<TableBuilderProps> = ({
@@ -50,6 +43,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   onCancel,
   onConfirm,
   onAdd,
+  hasActions,
 }) => {
   const classes = useStyles();
   return (
@@ -60,6 +54,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
             {cols.map((name) => (
               <TableCell align="right">{name}</TableCell>
             ))}
+            {hasActions && <TableCell align="right">Acciones</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -68,6 +63,14 @@ export const TableBuilder: FC<TableBuilderProps> = ({
               {row.map((value) => (
                 <TableCell align="right">{value}</TableCell>
               ))}
+              {hasActions && (
+                <TableCell align="right">
+                  <Close />
+                  <Create />
+                  <RemoveCircleOutlineOutlined />
+                  <Check />
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
