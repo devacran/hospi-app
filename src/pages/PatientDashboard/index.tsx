@@ -4,8 +4,9 @@ import cx from "classnames";
 import styles from "./styles.module.scss";
 import { VitalSigns } from "./components/VitalSigns";
 import { Link } from "react-router-dom";
-
+import { useParams } from "react-router";
 export const PatientDashboard = () => {
+  const { id: patientId } = useParams<{ id: string }>();
   return (
     <div className="container perro overflow-hidden">
       <div className="row ">
@@ -80,7 +81,7 @@ export const PatientDashboard = () => {
         <div className="col-4">
           <div className={cx("p-3 border bg-light", styles.lateralBtns)}>
             <Button>
-              <Link to="vital-signs">Medicamentos</Link>
+              <Link to={`${patientId}/prescriptions`}>Medicamentos</Link>
             </Button>
             <Button>Diagnosticos del Paciente</Button>
             <Button>Estado de cuenta</Button>

@@ -8,6 +8,7 @@ import { Patients } from "./pages/Patients";
 import { Layout } from "./components/Layout";
 import { PatientDashboard } from "./pages/PatientDashboard";
 import { VitalSigns } from "./pages/VitalSigns";
+import { Prescriptions } from "./pages/Prescriptions";
 const App = () => {
   return (
     <BrowserRouter>
@@ -25,6 +26,11 @@ const App = () => {
               exact
               path="/app/patients/:id/vital-signs"
               component={VitalSigns}
+            />
+            <Route
+              exact
+              path="/app/patients/:id/prescriptions"
+              component={Prescriptions}
             />
           </Route>
         </Layout>

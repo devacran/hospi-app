@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 export type RowCreator = Array<JSX.Element | string | number>;
 
-export function rowCreator(rowValues: Array<string | number>): RowCreator {
+export function rowCreator(rowValues: (string | number)[]): RowCreator {
   const actions = (
     <>
       <Close />
@@ -34,16 +34,16 @@ export function rowCreator(rowValues: Array<string | number>): RowCreator {
   return [...rowValues, actions];
 }
 
-type VitalSignsProps = {
-  rowsData: Array<string | number>[];
-  cols: Array<string>;
+type TableBuilderProps = {
+  rowsData: RowCreator[];
+  cols: string[];
   onDelete: () => void;
   onCancel: () => void;
   onConfirm: () => void;
   onAdd: () => void;
 };
 
-export const VitalSigns: FC<VitalSignsProps> = ({
+export const TableBuilder: FC<TableBuilderProps> = ({
   rowsData,
   cols,
   onDelete,
@@ -58,15 +58,15 @@ export const VitalSigns: FC<VitalSignsProps> = ({
         <TableHead>
           <TableRow>
             {cols.map((name) => (
-              <TableCell align="right">Name</TableCell>
+              <TableCell align="right">{name}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsData.map((row: Array<string | number>) => (
+          {rowsData.map((row: RowCreator) => (
             <TableRow>
               {row.map((value) => (
-                <TableCell align="right">value</TableCell>
+                <TableCell align="right">{value}</TableCell>
               ))}
             </TableRow>
           ))}
