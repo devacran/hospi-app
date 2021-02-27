@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 export const PatientDashboard = () => {
   const { id: patientId } = useParams<{ id: string }>();
   return (
-    <div className="container perro overflow-hidden">
+    <div className="container overflow-hidden">
       <div className="row ">
         <div className="col-8">
           <div className={cx("p-3 border bg-light h-100", styles.card)}>

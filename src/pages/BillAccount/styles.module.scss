@@ -1,0 +1,13 @@
+@import "../../variables.scss";
+.status {
+  width: 480px;
+}
+.statusHeader {
+  background-color: $active;
+  text-align: center;
+}
+.statusContainer {
+  display: grid;
+  place-items: center;
+  margin-top: 50px;
+}
