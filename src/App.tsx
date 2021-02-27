@@ -8,6 +8,7 @@ import { Patients } from "./pages/Patients";
 import { Layout } from "./components/Layout";
 import { PatientDashboard } from "./pages/PatientDashboard";
 import { VitalSigns } from "./pages/VitalSigns";
+import { BillAccount } from "./pages/BillAccount";
 import { Prescriptions } from "./pages/Prescriptions";
 const App = () => {
   return (
@@ -31,6 +32,11 @@ const App = () => {
               exact
               path="/app/patients/:id/prescriptions"
               component={Prescriptions}
+            />
+            <Route
+              exact
+              path="/app/patients/:id/bill-account"
+              component={BillAccount}
             />
           </Route>
         </Layout>

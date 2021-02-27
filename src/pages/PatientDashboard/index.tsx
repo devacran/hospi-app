@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import { VitalSigns } from "./components/VitalSigns";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+
 export const PatientDashboard = () => {
   const { id: patientId } = useParams<{ id: string }>();
   return (
@@ -84,7 +85,9 @@ export const PatientDashboard = () => {
               <Link to={`${patientId}/prescriptions`}>Medicamentos</Link>
             </Button>
             <Button>Diagnosticos del Paciente</Button>
-            <Button>Estado de cuenta</Button>
+            <Button>
+              <Link to={`${patientId}/bill-account`}>Estado de Cuenta</Link>
+            </Button>
             <Button>Editar Informacion</Button>
           </div>
         </div>
