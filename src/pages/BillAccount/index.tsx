@@ -16,7 +16,7 @@ export const BillAccount = () => {
         onDelete={() => {}}
         onAdd={() => {}}
         onCancel={() => {}}
-        onConfirm={() => {}}
+        onUpdate={() => {}}
         hasActions={false}
       />
       <div className={classes.statusContainer}>

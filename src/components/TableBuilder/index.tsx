@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,10 +20,16 @@ const useStyles = makeStyles({
   },
 });
 
-export type RowCreator = (string | number)[];
-
-export function rowCreator(rowValues: (string | number)[]): RowCreator {
-  return [...rowValues];
+export type RowCreator = { rows: RowValue[]; options: any };
+export type RowValue =
+  | string
+  | number
+  | { value: string | number; editable: boolean };
+export function rowCreator(
+  rowValues: RowValue[],
+  options: any = {}
+): RowCreator {
+  return { rows: [...rowValues], options };
 }
 
 type TableBuilderProps = {
@@ -31,7 +37,7 @@ type TableBuilderProps = {
   cols: string[];
   onDelete: () => void;
   onCancel: () => void;
-  onConfirm: () => void;
+  onUpdate: () => void;
   onAdd: () => void;
   hasActions: boolean;
 };
@@ -41,11 +47,19 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   cols,
   onDelete,
   onCancel,
-  onConfirm,
+  onUpdate,
   onAdd,
   hasActions,
 }) => {
   const classes = useStyles();
+  const [currentRow, setCurrentRow] = useState([]);
+
+  const handleAdd = (value: any) => {
+    console.log(value);
+  };
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -58,17 +72,31 @@ export const TableBuilder: FC<TableBuilderProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsData.map((row: RowCreator) => (
+          {rowsData.map((data: RowCreator) => (
             <TableRow>
-              {row.map((value) => (
-                <TableCell align="right">{value}</TableCell>
+              {data.rows.map((value) => (
+                <TableCell align="right">
+                  <input
+                    value={typeof value === "object" ? value.value : value}
+                    onChange={onInputChange}
+                  />
+                </TableCell>
               ))}
               {hasActions && (
                 <TableCell align="right">
-                  <Close />
-                  <Create />
+                  {data.options.edit && (
+                    <button onClick={() => handleAdd(data)}>
+                      <Check />
+                    </button>
+                  )}
+                  {data.options.update && (
+                    <>
+                      <Close />
+                      <Check />
+                    </>
+                  )}
+                  {!data.options.edit && !data.options.update && <Create />}
                   <RemoveCircleOutlineOutlined />
-                  <Check />
                 </TableCell>
               )}
             </TableRow>

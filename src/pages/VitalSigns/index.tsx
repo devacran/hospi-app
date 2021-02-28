@@ -28,7 +28,7 @@ export const VitalSigns = () => {
         onDelete={() => {}}
         onAdd={() => {}}
         onCancel={() => {}}
-        onConfirm={() => {}}
+        onUpdate={() => {}}
       />
     </>
   );

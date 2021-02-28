@@ -39,18 +39,20 @@ export const Prescriptions = () => {
   const handleAddItems = () => {
     setModal(false);
     const rows = selectedItems.map((i) =>
-      rowCreator([
-        i.id,
-        i.compound + " " + i.concentration,
-        "---",
-        "---",
-        "---",
-      ])
+      rowCreator(
+        [
+          i.id,
+          { value: i.compound + " " + i.concentration, editable: true },
+          { value: "---", editable: true },
+          { value: "---", editable: true },
+          { value: "---", editable: true },
+        ],
+        { edit: true, editable: true }
+      )
     );
     setRowElements([...rowElements, ...rows]);
     setSelectedItems([]);
   };
-  console.log(selectedItems);
   return (
     <>
       <SubHeader>
@@ -64,7 +66,7 @@ export const Prescriptions = () => {
         onDelete={() => {}}
         onAdd={() => {}}
         onCancel={() => {}}
-        onConfirm={() => {}}
+        onUpdate={() => {}}
       />
       <Modal
         show={modal}
@@ -81,6 +83,7 @@ export const Prescriptions = () => {
             onChange={handleChange}
             placeholder={"Ingresa el nombre del medicamento"}
             loadOptions={() => Promise.resolve(options)}
+            getOptionLabel={(o: any) => o.compound}
           />
           <ListGroup>
             {selectedItems.map((i) => {
