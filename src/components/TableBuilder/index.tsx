@@ -91,9 +91,13 @@ export const TableBuilder: FC<TableBuilderProps> = ({
 
   const handleAdd = (rowId: string | number) => {
     const data = editingRows[rowId];
+    //Send to Api
+    //then
+    const newEditingRows = { ...editingRows };
+    delete newEditingRows[rowId];
+    console.log(rowsToShow);
     console.log(data);
-    // //sendData to api
-    // updates rowsToShow
+    setEditingRows(newEditingRows);
   };
 
   const onInputChange = (
