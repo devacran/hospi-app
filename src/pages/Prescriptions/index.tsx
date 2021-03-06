@@ -41,11 +41,15 @@ export const Prescriptions = () => {
     const rows = selectedItems.map((i) =>
       rowCreator(
         [
-          i.id,
-          { value: i.compound + " " + i.concentration, editable: true },
-          { value: "---", editable: true },
-          { value: "---", editable: true },
-          { value: "---", editable: true },
+          { value: i.id, name: "ida", editable: false },
+          {
+            value: i.compound + " " + i.concentration,
+            editable: true,
+            name: "compound",
+          },
+          { value: "---", editable: true, name: "asd" },
+          { value: "---", editable: true, name: "sd" },
+          { value: "---", editable: true, name: "shs" },
         ],
         {
           edit: true,

@@ -25,10 +25,11 @@ export type RowCreator = {
   options: any;
   rowId: string | number;
 };
-export type ColValue =
-  | string
-  | number
-  | { value: string | number; editable: boolean };
+export type ColValue = {
+  value: string | number;
+  editable: boolean;
+  name: string;
+};
 
 export function rowCreator(
   colValues: ColValue[],
@@ -44,10 +45,10 @@ type TableBuilderProps = {
   onDelete: () => void;
   onCancel: () => void;
   onUpdate: () => void;
-  onAdd: () => void;
+  onAdd: (currentRow: CurrentRowType) => void;
   hasActions: boolean;
 };
-
+type CurrentRowType = Record<string, string | number>;
 export const TableBuilder: FC<TableBuilderProps> = ({
   rowsData,
   cols,
@@ -63,14 +64,41 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     inputName: string;
     value: any;
   }>({ inputName: "", value: "" });
+  const [currentRow, setCurrentRow] = useState<CurrentRowType>();
+  const [editingRows, setEditingRows] = useState<
+    Record<string | number, CurrentRowType>
+  >({});
+  const setCurrentRowData = (rowId?: number | string) => {
+    let currentRowData;
+    if (rowId) {
+      const index = rowsData.findIndex((x) => x.rowId === rowId);
+      currentRowData = rowsData[index];
+    } else {
+      currentRowData = rowsData[rowsData.length - 1];
+    }
+    const reducedRowData = currentRowData?.cols.reduce<
+      Record<string, string | number>
+    >((a, c) => {
+      a[c.name] = c.value;
+      return a;
+    }, {});
+    reducedRowData &&
+      setEditingRows({
+        ...editingRows,
+        [currentRowData.rowId]: reducedRowData,
+      });
+  };
 
   useEffect(() => {
     setRowsToShow(rowsData);
+    setCurrentRowData();
   }, [rowsData]);
 
-  const handleAdd = (value: any) => {
-    console.log(value);
-    console.log(rowsData);
+  const handleAdd = (rowId: string | number) => {
+    const data = editingRows[rowId];
+    console.log(data);
+    // //sendData to api
+    // updates rowsToShow
   };
   // const updateRegistry = ()=>{
   //   send({
@@ -81,15 +109,26 @@ export const TableBuilder: FC<TableBuilderProps> = ({
 
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    rowId: string | number,
-    colPosition: number
+    rowId: number | string
   ) => {
-    setCurrentField({ inputName: e.target.name, value: e.target.value });
+    if (editingRows[rowId]) {
+      editingRows[rowId][e.target.name] = e.target.value;
+      setEditingRows({
+        ...editingRows,
+        [rowId]: { ...editingRows[rowId], [e.target.name]: e.target.value },
+      });
+    } else {
+      setCurrentRowData(rowId);
+    }
   };
 
-  const getInputValue = (value: any, fieldName: string) => {
-    if (currentField.inputName === fieldName) {
-      return currentField.value;
+  const getInputValue = (
+    value: any,
+    fieldName: string,
+    rowId: string | number
+  ) => {
+    if (editingRows[rowId]) {
+      return editingRows[rowId][fieldName];
     } else {
       return value;
     }
@@ -111,20 +150,16 @@ export const TableBuilder: FC<TableBuilderProps> = ({
               {data.cols.map((value, key) => (
                 <TableCell align="right">
                   <input
-                    name="Mi nombre"
-                    value={
-                      typeof value === "object"
-                        ? getInputValue(value.value, "Mi nombre")
-                        : value
-                    }
-                    onChange={(e) => onInputChange(e, data.rowId, key)}
+                    name={value.name}
+                    value={getInputValue(value.value, value.name, data.rowId)}
+                    onChange={(e) => onInputChange(e, data.rowId)}
                   />
                 </TableCell>
               ))}
               {hasActions && (
                 <TableCell align="right">
                   {data.options.edit && (
-                    <button onClick={() => handleAdd(data)}>
+                    <button onClick={() => handleAdd(data.rowId)}>
                       <Check />
                     </button>
                   )}
