@@ -58,7 +58,6 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   onAdd,
   hasActions,
 }) => {
-  const classes = useStyles();
   const [rowsToShow, setRowsToShow] = useState<RowCreator[]>([]);
   const [currentField, setCurrentField] = useState<{
     inputName: string;
@@ -68,6 +67,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   const [editingRows, setEditingRows] = useState<
     Record<string | number, CurrentRowType>
   >({});
+
   const setCurrentRowData = (rowId?: number | string) => {
     let currentRowData;
     if (rowId) {
@@ -89,23 +89,12 @@ export const TableBuilder: FC<TableBuilderProps> = ({
       });
   };
 
-  useEffect(() => {
-    setRowsToShow(rowsData);
-    setCurrentRowData();
-  }, [rowsData]);
-
   const handleAdd = (rowId: string | number) => {
     const data = editingRows[rowId];
     console.log(data);
     // //sendData to api
     // updates rowsToShow
   };
-  // const updateRegistry = ()=>{
-  //   send({
-  //     registriId: //rowId,
-  //     eachFieldData
-  //   })
-  // }
 
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -133,6 +122,14 @@ export const TableBuilder: FC<TableBuilderProps> = ({
       return value;
     }
   };
+
+  useEffect(() => {
+    setRowsToShow(rowsData);
+    setCurrentRowData();
+  }, [rowsData]);
+
+  const classes = useStyles();
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
