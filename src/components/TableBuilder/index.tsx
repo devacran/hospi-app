@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,16 +20,22 @@ const useStyles = makeStyles({
   },
 });
 
-export type RowCreator = { rows: RowValue[]; options: any };
-export type RowValue =
+export type RowCreator = {
+  cols: ColValue[];
+  options: any;
+  rowId: string | number;
+};
+export type ColValue =
   | string
   | number
   | { value: string | number; editable: boolean };
+
 export function rowCreator(
-  rowValues: RowValue[],
-  options: any = {}
+  colValues: ColValue[],
+  options: any = {},
+  rowId: number | string
 ): RowCreator {
-  return { rows: [...rowValues], options };
+  return { cols: [...colValues], options, rowId };
 }
 
 type TableBuilderProps = {
@@ -52,13 +58,41 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   hasActions,
 }) => {
   const classes = useStyles();
-  const [currentRow, setCurrentRow] = useState([]);
+  const [rowsToShow, setRowsToShow] = useState<RowCreator[]>([]);
+  const [currentField, setCurrentField] = useState<{
+    inputName: string;
+    value: any;
+  }>({ inputName: "", value: "" });
+
+  useEffect(() => {
+    setRowsToShow(rowsData);
+  }, [rowsData]);
 
   const handleAdd = (value: any) => {
     console.log(value);
+    console.log(rowsData);
   };
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+  // const updateRegistry = ()=>{
+  //   send({
+  //     registriId: //rowId,
+  //     eachFieldData
+  //   })
+  // }
+
+  const onInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    rowId: string | number,
+    colPosition: number
+  ) => {
+    setCurrentField({ inputName: e.target.name, value: e.target.value });
+  };
+
+  const getInputValue = (value: any, fieldName: string) => {
+    if (currentField.inputName === fieldName) {
+      return currentField.value;
+    } else {
+      return value;
+    }
   };
   return (
     <TableContainer component={Paper}>
@@ -73,12 +107,17 @@ export const TableBuilder: FC<TableBuilderProps> = ({
         </TableHead>
         <TableBody>
           {rowsData.map((data: RowCreator) => (
-            <TableRow>
-              {data.rows.map((value) => (
+            <TableRow key={data.rowId}>
+              {data.cols.map((value, key) => (
                 <TableCell align="right">
                   <input
-                    value={typeof value === "object" ? value.value : value}
-                    onChange={onInputChange}
+                    name="Mi nombre"
+                    value={
+                      typeof value === "object"
+                        ? getInputValue(value.value, "Mi nombre")
+                        : value
+                    }
+                    onChange={(e) => onInputChange(e, data.rowId, key)}
                   />
                 </TableCell>
               ))}

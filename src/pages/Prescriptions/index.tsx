@@ -47,7 +47,11 @@ export const Prescriptions = () => {
           { value: "---", editable: true },
           { value: "---", editable: true },
         ],
-        { edit: true, editable: true }
+        {
+          edit: true,
+          editable: true,
+        },
+        Math.floor(Math.random() * 500000)
       )
     );
     setRowElements([...rowElements, ...rows]);
