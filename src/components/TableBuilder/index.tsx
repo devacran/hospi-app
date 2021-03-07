@@ -62,25 +62,51 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   const [editingRows, setEditingRows] = useState<
     Record<string | number, CurrentRowType>
   >({});
-  const setCurrentRowData = (rowId?: number | string) => {
+
+  const setEditingRowData = (rowId?: number | string) => {
     let currentRowData;
     if (rowId) {
       const index = rowsData.findIndex((x) => x.rowId === rowId);
       currentRowData = rowsData[index];
+      const reducedRowData = currentRowData?.cols.reduce<
+        Record<string, string | number>
+      >((a, c) => {
+        a[c.name] = c.value;
+        return a;
+      }, {});
+      reducedRowData &&
+        setEditingRows({
+          ...editingRows,
+          [currentRowData.rowId]: reducedRowData,
+        });
     } else {
-      currentRowData = rowsData[rowsData.length - 1];
+      const rowsToEdit = rowsData.filter((x) => typeof x.rowId === "number");
+      if (rowsToEdit) {
+        let newEditingRows = {};
+        rowsToEdit.forEach((currentRowData) => {
+          const reducedRowData = currentRowData?.cols.reduce<
+            Record<string, string | number>
+          >((a, c) => {
+            a[c.name] = c.value;
+            return a;
+          }, {});
+
+          newEditingRows = {
+            ...newEditingRows,
+            [currentRowData.rowId]: reducedRowData,
+          };
+        });
+        newEditingRows &&
+          setEditingRows({
+            ...editingRows,
+            ...newEditingRows,
+          });
+      }
     }
-    const reducedRowData = currentRowData?.cols.reduce<
-      Record<string, string | number>
-    >((a, c) => {
-      a[c.name] = c.value;
-      return a;
-    }, {});
-    reducedRowData &&
-      setEditingRows({
-        ...editingRows,
-        [currentRowData.rowId]: reducedRowData,
-      });
+    // else {
+    //   console.log("rowsData", rowsData);
+    //   currentRowData = rowsData[rowsData.length - 1];
+    // }
   };
 
   const handleAdd = (rowId: string | number) => {
@@ -126,9 +152,10 @@ export const TableBuilder: FC<TableBuilderProps> = ({
         ...editingRows,
         [rowId]: { ...editingRows[rowId], [e.target.name]: e.target.value },
       });
-    } else {
-      setCurrentRowData(rowId);
     }
+    // else {
+    //   setEditingRowData(rowId);
+    // }
   };
 
   const getInputValue = (
@@ -145,11 +172,11 @@ export const TableBuilder: FC<TableBuilderProps> = ({
 
   useEffect(() => {
     setRowsToShow(rowsData);
-    setCurrentRowData();
+    setEditingRowData();
   }, [rowsData]);
 
   const classes = useStyles();
-
+  console.log(editingRows);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -187,7 +214,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
                     </>
                   )}
                   {!editingRows[data.rowId] && !data.options.update && (
-                    <button onClick={() => handleUpdate(data.rowId)}>
+                    <button onClick={() => setEditingRowData(data.rowId)}>
                       <Create />
                     </button>
                   )}
