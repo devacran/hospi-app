@@ -98,6 +98,16 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     console.log(rowsToShow);
     console.log(data);
     setEditingRows(newEditingRows);
+
+    const index = rowsToShow.findIndex((x) => x.rowId === rowId);
+    const updatedCol = rowsToShow[index].cols.map((x) => ({
+      ...x,
+      value: data[x.name],
+    }));
+    const newRowsToShow = [...rowsToShow];
+    newRowsToShow[index].cols = updatedCol;
+
+    setRowsToShow(newRowsToShow);
   };
 
   const onInputChange = (
