@@ -59,15 +59,9 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   hasActions,
 }) => {
   const [rowsToShow, setRowsToShow] = useState<RowCreator[]>([]);
-  const [currentField, setCurrentField] = useState<{
-    inputName: string;
-    value: any;
-  }>({ inputName: "", value: "" });
-  const [currentRow, setCurrentRow] = useState<CurrentRowType>();
   const [editingRows, setEditingRows] = useState<
     Record<string | number, CurrentRowType>
   >({});
-
   const setCurrentRowData = (rowId?: number | string) => {
     let currentRowData;
     if (rowId) {
@@ -95,8 +89,6 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     //then
     const newEditingRows = { ...editingRows };
     delete newEditingRows[rowId];
-    console.log(rowsToShow);
-    console.log(data);
     setEditingRows(newEditingRows);
 
     const index = rowsToShow.findIndex((x) => x.rowId === rowId);
@@ -107,6 +99,20 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     const newRowsToShow = [...rowsToShow];
     newRowsToShow[index].cols = updatedCol;
 
+    setRowsToShow(newRowsToShow);
+  };
+
+  const handleUpdate = (rowId: string | number) => {
+    //exactly as handleAdd but with another request
+  };
+
+  const handleDelete = (rowId: string | number) => {
+    if (typeof rowId === "string") {
+      //do request
+    }
+    const newRowsToShow = [...rowsToShow];
+    const i = newRowsToShow.findIndex((x) => x.rowId === rowId);
+    newRowsToShow.splice(i, 1);
     setRowsToShow(newRowsToShow);
   };
 
@@ -156,7 +162,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsData.map((data: RowCreator) => (
+          {rowsToShow.map((data: RowCreator) => (
             <TableRow key={data.rowId}>
               {data.cols.map((value, key) => (
                 <TableCell align="right">
@@ -169,7 +175,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
               ))}
               {hasActions && (
                 <TableCell align="right">
-                  {data.options.edit && (
+                  {editingRows[data.rowId] && (
                     <button onClick={() => handleAdd(data.rowId)}>
                       <Check />
                     </button>
@@ -180,8 +186,14 @@ export const TableBuilder: FC<TableBuilderProps> = ({
                       <Check />
                     </>
                   )}
-                  {!data.options.edit && !data.options.update && <Create />}
-                  <RemoveCircleOutlineOutlined />
+                  {!editingRows[data.rowId] && !data.options.update && (
+                    <button onClick={() => handleUpdate(data.rowId)}>
+                      <Create />
+                    </button>
+                  )}
+                  <button onClick={() => handleDelete(data.rowId)}>
+                    <RemoveCircleOutlineOutlined />
+                  </button>
                 </TableCell>
               )}
             </TableRow>
