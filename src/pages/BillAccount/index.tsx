@@ -1,35 +1,12 @@
 import React from "react";
-import { TableBuilder, rowCreator } from "../../components/TableBuilder";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import classes from "./styles.module.scss";
-export const BillAccount = () => {
-  const rows = [
-    rowCreator(
-      [
-        { value: "asd", editable: true, name: "1" },
-        { value: "asd", editable: true, name: "1" },
-        { value: "asd", editable: true, name: "1" },
-        { value: "asd", editable: true, name: "1" },
-      ],
-      {
-        edit: true,
-        editable: true,
-      },
-      Math.floor(Math.random() * 500000)
-    ),
-  ];
+import { ChargesList } from "./components/ChargesList";
 
+export const BillAccount = () => {
   return (
     <>
-      <TableBuilder
-        rowsData={rows}
-        cols={["Cantidad", "Concepto", "Costo", "Costo Total"]}
-        onDelete={() => {}}
-        onAdd={() => {}}
-        onCancel={() => {}}
-        onUpdate={() => {}}
-        hasActions={false}
-      />
+      <ChargesList />
       <div className={classes.statusContainer}>
         <Card className={classes.status}>
           <Card.Header className={classes.statusHeader}>

@@ -33,7 +33,6 @@ export const Prescriptions = () => {
   const handleRemoveItem = (item: any) => {
     const i = selectedItems.findIndex((item) => item.id === 1);
     const newSelectedItems = selectedItems.splice(i + 1, 1);
-    console.log(i, newSelectedItems);
     setSelectedItems(newSelectedItems);
   };
   const handleAddItems = () => {

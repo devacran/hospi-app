@@ -129,7 +129,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     });
     const newRowsToShow = [...rowsToShow];
     newRowsToShow[index].cols = updatedCol;
-    newRowsToShow[index].rowId = "TU OUTAS";
+    //newRowsToShow[index].rowId = "TU OUTAS"; Id created by API
 
     setRowsToShow(newRowsToShow);
   };

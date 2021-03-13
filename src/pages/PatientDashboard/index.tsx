@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 export const PatientDashboard = () => {
   const { id: patientId } = useParams<{ id: string }>();
   return (
-    <div className="container overflow-hidden">
+    <div className="container overflow-hidden main">
       <div className="row ">
         <div className="col-8">
           <div className={cx("p-3 border bg-light h-100", styles.card)}>
@@ -84,11 +84,11 @@ export const PatientDashboard = () => {
             <Button>
               <Link to={`${patientId}/prescriptions`}>Medicamentos</Link>
             </Button>
-            <Button>Diagnosticos del Paciente</Button>
+            <Button disabled>Diagnosticos del Paciente</Button>
             <Button>
               <Link to={`${patientId}/bill-account`}>Estado de Cuenta</Link>
             </Button>
-            <Button>Editar Informacion</Button>
+            <Button disabled>Editar Informacion</Button>
           </div>
         </div>
       </div>

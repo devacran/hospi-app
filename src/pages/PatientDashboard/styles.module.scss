@@ -1,3 +1,11 @@
+a {
+  &:visited {
+    color: inherit;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
 .card {
   display: grid;
 }
@@ -24,6 +32,7 @@
 .lateralBtns {
   display: flex;
   flex-direction: column;
+
   button {
     margin: 8px;
   }

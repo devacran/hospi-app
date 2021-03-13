@@ -1,12 +1,18 @@
-import { TableBuilder, rowCreator } from "../../components/TableBuilder";
-import { InputGroup, Button, FormControl } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  TableBuilder,
+  rowCreator,
+  RowCreator,
+} from "../../components/TableBuilder";
+import { Button } from "react-bootstrap";
 import { SubHeader } from "../../components/SubHeader";
 
 import classes from "./styles.module.scss";
 
 export const VitalSigns = () => {
-  const rows = [
-    rowCreator(
+  const [rowElements, setRowElements] = useState<RowCreator[]>([]);
+  const handleAddItems = () => {
+    const row = rowCreator(
       [
         { value: "asd", editable: true, name: "1" },
         { value: "asd", editable: true, name: "2" },
@@ -18,17 +24,17 @@ export const VitalSigns = () => {
         editable: true,
       },
       Math.floor(Math.random() * 500000)
-    ),
-  ];
-
+    );
+    setRowElements([row, ...rowElements]);
+  };
   return (
     <>
       <SubHeader>
         <div></div>
-        <Button>Añadir Registro</Button>
+        <Button onClick={handleAddItems}>Añadir Registro</Button>
       </SubHeader>
       <TableBuilder
-        rowsData={rows}
+        rowsData={rowElements}
         hasActions={true}
         cols={[
           "Temp",

@@ -3,12 +3,13 @@ import { Card, Button } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+import cx from "classnames";
 export const VitalSigns = () => {
   const { id: patientId } = useParams<{ id: string }>();
 
   return (
-    <Card>
-      <div className={styles.header}>
+    <Card className="pb-10">
+      <div className={cx(styles.header)}>
         <div>Viernes 30 de Diciembre</div>
         <div>
           <Button>
