@@ -9,9 +9,9 @@ export const VitalSigns = () => {
     rowCreator(
       [
         { value: "asd", editable: true, name: "1" },
-        { value: "asd", editable: true, name: "1" },
-        { value: "asd", editable: true, name: "1" },
-        { value: "asd", editable: true, name: "1" },
+        { value: "asd", editable: true, name: "2" },
+        { value: "asd", editable: true, name: "3" },
+        { value: "asd", editable: true, name: "4" },
       ],
       {
         edit: true,

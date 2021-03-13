@@ -48,7 +48,9 @@ type TableBuilderProps = {
   onAdd: (currentRow: CurrentRowType) => void;
   hasActions: boolean;
 };
+
 type CurrentRowType = Record<string, string | number>;
+
 export const TableBuilder: FC<TableBuilderProps> = ({
   rowsData,
   cols,
@@ -111,25 +113,25 @@ export const TableBuilder: FC<TableBuilderProps> = ({
 
   const handleAdd = (rowId: string | number) => {
     const data = editingRows[rowId];
-    //Send to Api
+    //Send to Api UPDATE if id is string CREATE if iid is number
     //then
     const newEditingRows = { ...editingRows };
     delete newEditingRows[rowId];
     setEditingRows(newEditingRows);
 
     const index = rowsToShow.findIndex((x) => x.rowId === rowId);
-    const updatedCol = rowsToShow[index].cols.map((x) => ({
-      ...x,
-      value: data[x.name],
-    }));
+    const updatedCol = rowsToShow[index].cols.map((x) => {
+      console.log(x);
+      return {
+        ...x,
+        value: data[x.name],
+      };
+    });
     const newRowsToShow = [...rowsToShow];
     newRowsToShow[index].cols = updatedCol;
+    newRowsToShow[index].rowId = "TU OUTAS";
 
     setRowsToShow(newRowsToShow);
-  };
-
-  const handleUpdate = (rowId: string | number) => {
-    //exactly as handleAdd but with another request
   };
 
   const handleDelete = (rowId: string | number) => {
@@ -140,6 +142,12 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     const i = newRowsToShow.findIndex((x) => x.rowId === rowId);
     newRowsToShow.splice(i, 1);
     setRowsToShow(newRowsToShow);
+  };
+
+  const handleCancel = (rowId: string | number) => {
+    const newEditingRows = { ...editingRows };
+    delete newEditingRows[rowId];
+    setEditingRows(newEditingRows);
   };
 
   const onInputChange = (
@@ -176,7 +184,6 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   }, [rowsData]);
 
   const classes = useStyles();
-  console.log(editingRows);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -202,18 +209,22 @@ export const TableBuilder: FC<TableBuilderProps> = ({
               ))}
               {hasActions && (
                 <TableCell align="right">
-                  {editingRows[data.rowId] && (
+                  {editingRows[data.rowId] && typeof data.rowId === "number" && (
                     <button onClick={() => handleAdd(data.rowId)}>
                       <Check />
                     </button>
                   )}
-                  {data.options.update && (
+                  {editingRows[data.rowId] && typeof data.rowId === "string" && (
                     <>
-                      <Close />
-                      <Check />
+                      <button onClick={() => handleCancel(data.rowId)}>
+                        <Close />
+                      </button>
+                      <button onClick={() => handleAdd(data.rowId)}>
+                        <Check />
+                      </button>
                     </>
                   )}
-                  {!editingRows[data.rowId] && !data.options.update && (
+                  {!editingRows[data.rowId] && (
                     <button onClick={() => setEditingRowData(data.rowId)}>
                       <Create />
                     </button>
