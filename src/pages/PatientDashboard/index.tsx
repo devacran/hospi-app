@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import { Card, Button } from "react-bootstrap";
 import cx from "classnames";
 import styles from "./styles.module.scss";
 import { VitalSigns } from "./components/VitalSigns";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+import appConfig from "../../config";
 
 export const PatientDashboard = () => {
   const { id: patientId } = useParams<{ id: string }>();
+  const [patientData, setPatientData] = useState<any>();
+  useEffect(() => {
+    (async () => {
+      try {
+        const {
+          data: { data: patient },
+        } = await axios(`${appConfig.API}/patients/${patientId}`);
+        setPatientData(patient);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
   return (
     <div className="container overflow-hidden main">
       <div className="row ">
@@ -18,29 +34,29 @@ export const PatientDashboard = () => {
                 <div>
                   <div>
                     <span>Nombre:</span>
-                    <span>Juan Antonio</span>
+                    <span>{patientData?.name}</span>
                   </div>
                   <div>
-                    <span>Nombre:</span>
-                    <span>Juan Antonio</span>
+                    <span>Sexo:</span>
+                    <span>{patientData?.genre}</span>
                   </div>
                   <div>
-                    <span>Nombre:</span>
-                    <span>Juan Antonio</span>
+                    <span>Edad:</span>
+                    <span>{patientData?.age}</span>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <span>Nombre:</span>
-                    <span>Juan Antonio</span>
+                    <span>Apellido:</span>
+                    <span>{patientData?.last_name}</span>
                   </div>
                   <div>
-                    <span>Nombre:</span>
-                    <span>Juan Antonio</span>
+                    <span>Medico:</span>
+                    <span>Sin asignar</span>
                   </div>
                   <div>
-                    <span>Nombre:</span>
-                    <span>Juan Antonio</span>
+                    <span>Expediente:</span>
+                    <span>{patientData?.nss}</span>
                   </div>
                 </div>
               </div>
@@ -49,29 +65,21 @@ export const PatientDashboard = () => {
               <div className={styles.cardContent}>
                 <div>
                   <div>
-                    <span>Nombre:</span>
+                    <span>Estatus:</span>
                     <span>Juan Antonio</span>
                   </div>
                   <div>
-                    <span>Nombre:</span>
-                    <span>Juan Antonio</span>
-                  </div>
-                  <div>
-                    <span>Nombre:</span>
+                    <span>Dias de Hospitalizacion:</span>
                     <span>Juan Antonio</span>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <span>Nombre:</span>
+                    <span>Cuenta:</span>
                     <span>Juan Antonio</span>
                   </div>
                   <div>
-                    <span>Nombre:</span>
-                    <span>Juan Antonio</span>
-                  </div>
-                  <div>
-                    <span>Nombre:</span>
+                    <span>Cama:</span>
                     <span>Juan Antonio</span>
                   </div>
                 </div>

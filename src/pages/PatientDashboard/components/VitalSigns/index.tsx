@@ -1,9 +1,9 @@
-import React from "react";
 import { Card, Button } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import cx from "classnames";
+
 export const VitalSigns = () => {
   const { id: patientId } = useParams<{ id: string }>();
 
