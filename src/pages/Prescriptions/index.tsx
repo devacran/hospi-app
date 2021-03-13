@@ -91,6 +91,7 @@ export const Prescriptions = () => {
             placeholder={"Ingresa el nombre del medicamento"}
             loadOptions={() => Promise.resolve(options)}
             getOptionLabel={(o: any) => o.compound}
+            noOptionsMessage={() => "Escribe para buscar"}
           />
           <ListGroup>
             {selectedItems.map((i) => {
