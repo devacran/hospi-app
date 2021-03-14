@@ -12,7 +12,6 @@ export const Header = () => {
     billAccount: childRoute === "bill-account",
     prescriptions: childRoute === "prescriptions",
   };
-  console.log(isRoute);
   return (
     <div className="m-3">
       <h1 className="h1">

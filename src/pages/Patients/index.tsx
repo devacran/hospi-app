@@ -14,7 +14,6 @@ export const Patients = () => {
         const {
           data: { data: patients },
         } = await axios(`${appConfig.API}/patients`);
-        console.log(patients);
         setPatientsList(patients);
       } catch (e) {
         console.error(e);

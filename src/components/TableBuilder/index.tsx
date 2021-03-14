@@ -113,6 +113,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
 
   const handleAdd = (rowId: string | number) => {
     const data = editingRows[rowId];
+    onAdd(data);
     //Send to Api UPDATE if id is string CREATE if iid is number
     //then
     const newEditingRows = { ...editingRows };
@@ -121,7 +122,6 @@ export const TableBuilder: FC<TableBuilderProps> = ({
 
     const index = rowsToShow.findIndex((x) => x.rowId === rowId);
     const updatedCol = rowsToShow[index].cols.map((x) => {
-      console.log(x);
       return {
         ...x,
         value: data[x.name],
