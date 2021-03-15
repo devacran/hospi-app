@@ -42,10 +42,13 @@ export function rowCreator(
 type TableBuilderProps = {
   rowsData: RowCreator[];
   cols: string[];
-  onDelete: () => void;
+  onDelete: (rowId: number) => Promise<number | null>;
   onCancel: () => void;
-  onUpdate: () => void;
-  onAdd: (currentRow: CurrentRowType) => void;
+  onUpdate: (
+    currentRow: CurrentRowType,
+    rowId: number
+  ) => Promise<number | null>;
+  onAdd: (currentRow: CurrentRowType) => Promise<number | null>;
   hasActions: boolean;
 };
 
@@ -82,7 +85,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
           [currentRowData.rowId]: reducedRowData,
         });
     } else {
-      const rowsToEdit = rowsData.filter((x) => typeof x.rowId === "number");
+      const rowsToEdit = rowsData.filter((x) => typeof x.rowId === "string");
       if (rowsToEdit) {
         let newEditingRows = {};
         rowsToEdit.forEach((currentRowData) => {
@@ -111,37 +114,50 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     // }
   };
 
-  const handleAdd = (rowId: string | number) => {
+  const handleAdd = async (rowId: string | number) => {
     const data = editingRows[rowId];
-    onAdd(data);
-    //Send to Api UPDATE if id is string CREATE if iid is number
-    //then
-    const newEditingRows = { ...editingRows };
-    delete newEditingRows[rowId];
-    setEditingRows(newEditingRows);
+    const isUpdate = typeof rowId === "number";
+    try {
+      const updatedRowId = isUpdate
+        ? await onUpdate(data, rowId as number)
+        : await onAdd(data);
 
-    const index = rowsToShow.findIndex((x) => x.rowId === rowId);
-    const updatedCol = rowsToShow[index].cols.map((x) => {
-      return {
-        ...x,
-        value: data[x.name],
-      };
-    });
-    const newRowsToShow = [...rowsToShow];
-    newRowsToShow[index].cols = updatedCol;
-    //newRowsToShow[index].rowId = "TU OUTAS"; Id created by API
+      const newEditingRows = { ...editingRows };
+      delete newEditingRows[rowId];
+      setEditingRows(newEditingRows);
 
-    setRowsToShow(newRowsToShow);
+      const index = rowsToShow.findIndex((x) => x.rowId === rowId);
+      const updatedCol = rowsToShow[index].cols.map((x) => {
+        return {
+          ...x,
+          value: data[x.name],
+        };
+      });
+      const newRowsToShow = [...rowsToShow];
+      newRowsToShow[index].cols = updatedCol;
+      newRowsToShow[index].rowId = updatedRowId as number;
+
+      setRowsToShow(newRowsToShow);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleDelete = (rowId: string | number) => {
-    if (typeof rowId === "string") {
-      //do request
+  const handleDelete = async (rowId: string | number) => {
+    if (typeof rowId === "number") {
+      const deletedId = await onDelete(rowId);
+      if (deletedId) {
+        const newRowsToShow = [...rowsToShow];
+        const i = newRowsToShow.findIndex((x) => x.rowId === rowId);
+        newRowsToShow.splice(i, 1);
+        setRowsToShow(newRowsToShow);
+      }
+    } else {
+      const newRowsToShow = [...rowsToShow];
+      const i = newRowsToShow.findIndex((x) => x.rowId === rowId);
+      newRowsToShow.splice(i, 1);
+      setRowsToShow(newRowsToShow);
     }
-    const newRowsToShow = [...rowsToShow];
-    const i = newRowsToShow.findIndex((x) => x.rowId === rowId);
-    newRowsToShow.splice(i, 1);
-    setRowsToShow(newRowsToShow);
   };
 
   const handleCancel = (rowId: string | number) => {
@@ -209,12 +225,12 @@ export const TableBuilder: FC<TableBuilderProps> = ({
               ))}
               {hasActions && (
                 <TableCell align="right">
-                  {editingRows[data.rowId] && typeof data.rowId === "number" && (
+                  {editingRows[data.rowId] && typeof data.rowId === "string" && (
                     <button onClick={() => handleAdd(data.rowId)}>
                       <Check />
                     </button>
                   )}
-                  {editingRows[data.rowId] && typeof data.rowId === "string" && (
+                  {editingRows[data.rowId] && typeof data.rowId === "number" && (
                     <>
                       <button onClick={() => handleCancel(data.rowId)}>
                         <Close />

@@ -70,10 +70,10 @@ export const Prescriptions = () => {
         hasActions={true}
         rowsData={rowElements}
         cols={["Clave", "Medicamento", "Dosis", "Via Admin", "Frecuencia"]}
-        onDelete={() => {}}
-        onAdd={() => {}}
+        onDelete={(rowId: number) => Promise.resolve(null)}
+        onAdd={() => Promise.resolve(null)}
         onCancel={() => {}}
-        onUpdate={() => {}}
+        onUpdate={() => Promise.resolve(null)}
       />
       <Modal
         show={modal}

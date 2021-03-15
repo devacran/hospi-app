@@ -21,24 +21,27 @@ export const VitalSigns = () => {
   useEffect(() => {
     (async () => {
       try {
-        const {
-          data: { data: vitalSigns, id: rowId },
-        } = await axios(`${appConfig.API}/patients/${patientId}/vital-signs`);
+        const { data: vitalSigns } = await axios(
+          `${appConfig.API}/patients/${patientId}/vital-signs`
+        );
         console.log(vitalSigns);
-        const newRowsData: RowCreator[] = vitalSigns.map((x: any) => {
-          const cols = Object.keys(x).map((key) => {
-            if (key !== "vital_signs_id") {
+        const newRowsData: RowCreator[] = vitalSigns.map(
+          (x: any, i: number) => {
+            const cols = Object.keys(x.data).map((key) => {
               return {
-                value: x[key],
+                value:
+                  key === "created_at"
+                    ? new Date(x.data[key]).toLocaleDateString()
+                    : x.data[key],
                 editable: true,
                 name: key,
               };
-            }
-          });
-          return { cols, rowId };
-        });
-        console.log(newRowsData);
-        // setRowElements(newRowsData);
+            });
+            return { cols, rowId: x.id };
+          }
+        );
+
+        setRowElements(newRowsData);
       } catch (e) {
         console.error(e);
       }
@@ -53,30 +56,60 @@ export const VitalSigns = () => {
         { value: "", editable: true, name: "blood_pressureD" },
         { value: "", editable: true, name: "heart_rate" },
         { value: "", editable: true, name: "temp" },
-        { value: "", editable: true, name: "date" },
+        { value: "24/07/12", editable: false, name: "date" },
       ],
       {
         edit: true,
         editable: true,
       },
-      Math.floor(Math.random() * 500000)
+      Math.floor(Math.random() * 500000).toString()
     );
     console.log(row);
     setRowElements([row, ...rowElements]);
   };
 
-  const handleAdd = (rowValues: Record<string, string | number>) => {
+  const handleAdd = async (
+    rowValues: Record<string, string | number>
+  ): Promise<number | null> => {
     try {
       const params = { ...rowValues };
       delete params["created_at"];
-      const data = axios(`${appConfig.API}/patients/${patientId}/vital-signs`, {
-        params: rowValues,
-      });
+      const data = await axios(
+        `${appConfig.API}/patients/${patientId}/vital-signs`,
+        { method: "POST", params: rowValues }
+      );
+      return data.data.id;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
-  console.log(rowElements);
+  const handleUpdate = async (
+    rowValues: Record<string, string | number>,
+    rowId: number
+  ): Promise<number | null> => {
+    const params = { ...rowValues };
+    console.log(params);
+    delete params["created_at"];
+    const data = await axios(
+      `${appConfig.API}/patients/${patientId}/vital-signs`,
+      { method: "PUT", params: { ...params, id: rowId } }
+    );
+    return data.data.id;
+  };
+
+  const handleDelete = async (rowId: number) => {
+    try {
+      await axios(`${appConfig.API}/patients/${patientId}/vital-signs`, {
+        method: "DELETE",
+        params: { id: rowId, patientId },
+      });
+      return rowId;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
   return (
     <>
       <SubHeader>
@@ -94,10 +127,10 @@ export const VitalSigns = () => {
           "Presion Arterial",
           "Fecha",
         ]}
-        onDelete={() => {}}
+        onDelete={handleDelete}
         onAdd={handleAdd}
         onCancel={() => {}}
-        onUpdate={() => {}}
+        onUpdate={handleUpdate}
       />
     </>
   );
