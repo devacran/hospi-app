@@ -10,6 +10,7 @@ import { ListGroup } from "react-bootstrap";
 import Select from "react-select/async";
 import { RemoveCircleOutlineOutlined } from "@material-ui/icons";
 import classes from "./styles.module.scss";
+import { ListItem } from "react-bootstrap/lib/Media";
 
 type MedicineType = {
   id: number;
@@ -40,7 +41,6 @@ export const Prescriptions = () => {
     const rows = selectedItems.map((i) =>
       rowCreator(
         [
-          { value: i.id, name: "ida", editable: false },
           {
             value: i.compound + " " + i.concentration,
             editable: true,
@@ -48,13 +48,14 @@ export const Prescriptions = () => {
           },
           { value: "---", editable: true, name: "asd" },
           { value: "---", editable: true, name: "sd" },
-          { value: "---", editable: true, name: "shs" },
+          { value: "every day", editable: true, name: "shs" },
+          { value: "today", editable: false, name: "shs" },
         ],
         {
           edit: true,
           editable: true,
         },
-        Math.floor(Math.random() * 500000)
+        String(Math.floor(Math.random() * 500000))
       )
     );
     setRowElements([...rowElements, ...rows]);
@@ -69,11 +70,11 @@ export const Prescriptions = () => {
       <TableBuilder
         hasActions={true}
         rowsData={rowElements}
-        cols={["Clave", "Medicamento", "Dosis", "Via Admin", "Frecuencia"]}
+        cols={["Medicamento", "Dosis", "Via Admin", "Frecuencia", "Fecha"]}
         onDelete={(rowId: number) => Promise.resolve(null)}
-        onAdd={() => Promise.resolve(null)}
+        onAdd={() => Promise.reject(null)}
         onCancel={() => {}}
-        onUpdate={() => Promise.resolve(null)}
+        onUpdate={() => Promise.reject(null)}
       />
       <Modal
         show={modal}
@@ -96,7 +97,7 @@ export const Prescriptions = () => {
           <ListGroup>
             {selectedItems.map((i) => {
               return (
-                <ListGroup.Item>
+                <ListGroup.Item className={classes.listItem}>
                   <span>
                     <Button onClick={() => handleRemoveItem(i)}>
                       <RemoveCircleOutlineOutlined />

@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
+import classes from "./styles.module.scss";
+import { Table, TextField } from "@material-ui/core";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -13,12 +13,6 @@ import {
   Create,
   RemoveCircleOutlineOutlined,
 } from "@material-ui/icons";
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
 
 export type RowCreator = {
   cols: ColValue[];
@@ -167,7 +161,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
   };
 
   const onInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     rowId: number | string
   ) => {
     if (editingRows[rowId]) {
@@ -199,7 +193,6 @@ export const TableBuilder: FC<TableBuilderProps> = ({
     setEditingRowData();
   }, [rowsData]);
 
-  const classes = useStyles();
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -216,36 +209,55 @@ export const TableBuilder: FC<TableBuilderProps> = ({
             <TableRow key={data.rowId}>
               {data.cols.map((value, key) => (
                 <TableCell align="right">
-                  <input
-                    name={value.name}
-                    value={getInputValue(value.value, value.name, data.rowId)}
-                    onChange={(e) => onInputChange(e, data.rowId)}
-                  />
+                  {value.editable && editingRows[data.rowId] ? (
+                    <TextField
+                      name={value.name}
+                      value={getInputValue(value.value, value.name, data.rowId)}
+                      onChange={(e) => onInputChange(e, data.rowId)}
+                    />
+                  ) : (
+                    value.value
+                  )}
                 </TableCell>
               ))}
               {hasActions && (
                 <TableCell align="right">
                   {editingRows[data.rowId] && typeof data.rowId === "string" && (
-                    <button onClick={() => handleAdd(data.rowId)}>
+                    <button
+                      className={classes.actionBtns}
+                      onClick={() => handleAdd(data.rowId)}
+                    >
                       <Check />
                     </button>
                   )}
                   {editingRows[data.rowId] && typeof data.rowId === "number" && (
                     <>
-                      <button onClick={() => handleCancel(data.rowId)}>
+                      <button
+                        className={classes.actionBtns}
+                        onClick={() => handleCancel(data.rowId)}
+                      >
                         <Close />
                       </button>
-                      <button onClick={() => handleAdd(data.rowId)}>
+                      <button
+                        className={classes.actionBtns}
+                        onClick={() => handleAdd(data.rowId)}
+                      >
                         <Check />
                       </button>
                     </>
                   )}
                   {!editingRows[data.rowId] && (
-                    <button onClick={() => setEditingRowData(data.rowId)}>
+                    <button
+                      className={classes.actionBtns}
+                      onClick={() => setEditingRowData(data.rowId)}
+                    >
                       <Create />
                     </button>
                   )}
-                  <button onClick={() => handleDelete(data.rowId)}>
+                  <button
+                    className={classes.actionBtns}
+                    onClick={() => handleDelete(data.rowId)}
+                  >
                     <RemoveCircleOutlineOutlined />
                   </button>
                 </TableCell>

@@ -1,5 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import classes from "./styles.module.scss";
+import cx from "classnames";
 
 export const Header = () => {
   const location = useLocation();
@@ -13,7 +15,7 @@ export const Header = () => {
     prescriptions: childRoute === "prescriptions",
   };
   return (
-    <div className="m-3">
+    <div className={cx("m-3", classes.main)}>
       <h1 className="h1">
         {isRoute.patients
           ? "Pacientes"
