@@ -99,16 +99,12 @@ export const VitalSigns = () => {
   };
 
   const handleDelete = async (rowId: number) => {
-    try {
-      await axios(`${appConfig.API}/patients/${patientId}/vital-signs`, {
-        method: "DELETE",
-        params: { id: rowId, patientId },
-      });
-      return rowId;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
+    await axios(`${appConfig.API}/patients/${patientId}/vital-signs`, {
+      method: "DELETE",
+      params: { id: rowId, patientId },
+    });
+    console.log("gola");
+    setRowElements(rowElements.filter((row) => row.rowId !== rowId));
   };
   return (
     <>
@@ -127,7 +123,7 @@ export const VitalSigns = () => {
           "Presion Arterial",
           "Fecha",
         ]}
-        onDelete={handleDelete}
+        onDelete={handleDelete as any}
         onAdd={handleAdd}
         onCancel={() => {}}
         onUpdate={handleUpdate}

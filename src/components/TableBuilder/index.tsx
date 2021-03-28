@@ -36,7 +36,7 @@ export function rowCreator(
 type TableBuilderProps = {
   rowsData: RowCreator[];
   cols: string[];
-  onDelete: (rowId: number) => Promise<number | null>;
+  onDelete: (rowId: number | string) => Promise<number | null> | void;
   onCancel: () => void;
   onUpdate: (
     currentRow: CurrentRowType,
@@ -130,27 +130,20 @@ export const TableBuilder: FC<TableBuilderProps> = ({
       const newRowsToShow = [...rowsToShow];
       newRowsToShow[index].cols = updatedCol;
       newRowsToShow[index].rowId = updatedRowId as number;
-
       setRowsToShow(newRowsToShow);
     } catch (error) {
       console.log(error);
     }
   };
-
   const handleDelete = async (rowId: string | number) => {
-    if (typeof rowId === "number") {
-      const deletedId = await onDelete(rowId);
-      if (deletedId) {
-        const newRowsToShow = [...rowsToShow];
-        const i = newRowsToShow.findIndex((x) => x.rowId === rowId);
-        newRowsToShow.splice(i, 1);
-        setRowsToShow(newRowsToShow);
-      }
-    } else {
+    try {
+      await onDelete(rowId);
       const newRowsToShow = [...rowsToShow];
       const i = newRowsToShow.findIndex((x) => x.rowId === rowId);
       newRowsToShow.splice(i, 1);
       setRowsToShow(newRowsToShow);
+    } catch (e) {
+      console.log(e);
     }
   };
 

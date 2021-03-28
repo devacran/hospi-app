@@ -61,6 +61,7 @@ export const Prescriptions = () => {
     setRowElements([...rowElements, ...rows]);
     setSelectedItems([]);
   };
+  console.log(rowElements);
   return (
     <>
       <SubHeader>
@@ -71,9 +72,14 @@ export const Prescriptions = () => {
         hasActions={true}
         rowsData={rowElements}
         cols={["Medicamento", "Dosis", "Via Admin", "Frecuencia", "Fecha"]}
-        onDelete={(rowId: number) => Promise.resolve(null)}
+        onDelete={(rowId: number | string) => {
+          console.log(rowId, rowElements);
+          setRowElements(rowElements.filter((row) => row.rowId !== rowId));
+        }}
         onAdd={() => Promise.reject(null)}
-        onCancel={() => {}}
+        onCancel={() => {
+          console.log("hola");
+        }}
         onUpdate={() => Promise.reject(null)}
       />
       <Modal
