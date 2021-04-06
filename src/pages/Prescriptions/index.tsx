@@ -10,7 +10,6 @@ import { ListGroup } from "react-bootstrap";
 import Select from "react-select/async";
 import { RemoveCircleOutlineOutlined } from "@material-ui/icons";
 import classes from "./styles.module.scss";
-import { ListItem } from "react-bootstrap/lib/Media";
 
 type MedicineType = {
   id: number;
