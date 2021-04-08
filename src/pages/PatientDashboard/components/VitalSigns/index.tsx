@@ -11,11 +11,23 @@ const ENDPOINT = "http://localhost:8080";
 
 export const VitalSigns = () => {
   const { id: patientId } = useParams<{ id: string }>();
-  const [realTimeData, setRealTimeData] = useState<any>();
+  const [realTimeData, setRealTimeData] = useState<any>({});
   const [mySocket, setMySocket] = useState<any>();
 
   useEffect(() => {
+    const setDataFirstTime = async () => {
+      try {
+        const { data: vitalSigns } = await axios(
+          `${appConfig.API}/patients/${patientId}/vital-signs-last`
+        );
+        setRealTimeData(vitalSigns.data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    setDataFirstTime();
     const socket = io(ENDPOINT);
+    socket.emit("suscribeVitalSigns", { patientId });
     setMySocket(socket);
   }, []);
 
@@ -48,25 +60,29 @@ export const VitalSigns = () => {
       <div className={styles.params}>
         <div>
           <span>
-            32<span>g</span>
+            {`${realTimeData.blood_pressure_d}/${realTimeData.blood_pressure_s}`}
+            <span>mmHg</span>
           </span>
-          Sttus 1
+          Presion Arterial
         </div>
         <div>
           <span>
-            32<span>g</span>
+            {realTimeData.blood_pressure_s}
+            <span>bpm</span>
           </span>
-          Sttus 1
+          Ritmo Cardiaco
         </div>
         <div>
           <span>
-            32<span>g</span>
+            {realTimeData.glucose_level}
+            <span>mg/dl</span>
           </span>
-          Sttus 1
+          Glucosa
         </div>
         <div>
           <span>
-            32<span>g</span>
+            {realTimeData.heart_rate}
+            <span>g</span>
           </span>
           Sttus 1
         </div>
