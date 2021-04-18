@@ -194,7 +194,7 @@ export const TableBuilder: FC<TableBuilderProps> = ({
             {cols.map((name) => (
               <TableCell align="right">{name}</TableCell>
             ))}
-            {hasActions && <TableCell align="right">Acciones</TableCell>}
+            <TableCell align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -213,48 +213,52 @@ export const TableBuilder: FC<TableBuilderProps> = ({
                   )}
                 </TableCell>
               ))}
-              {hasActions && (
-                <TableCell align="right">
-                  {editingRows[data.rowId] && typeof data.rowId === "string" && (
-                    <button
-                      className={classes.actionBtns}
-                      onClick={() => handleAdd(data.rowId)}
-                    >
-                      <Check />
-                    </button>
-                  )}
-                  {editingRows[data.rowId] && typeof data.rowId === "number" && (
-                    <>
-                      <button
-                        className={classes.actionBtns}
-                        onClick={() => handleCancel(data.rowId)}
-                      >
-                        <Close />
-                      </button>
-                      <button
-                        className={classes.actionBtns}
-                        onClick={() => handleAdd(data.rowId)}
-                      >
-                        <Check />
-                      </button>
-                    </>
-                  )}
-                  {!editingRows[data.rowId] && (
-                    <button
-                      className={classes.actionBtns}
-                      onClick={() => setEditingRowData(data.rowId)}
-                    >
-                      <Create />
-                    </button>
-                  )}
+              <TableCell align="right">
+                {editingRows[data.rowId] && typeof data.rowId === "string" && (
                   <button
                     className={classes.actionBtns}
-                    onClick={() => handleDelete(data.rowId)}
+                    onClick={() => handleAdd(data.rowId)}
                   >
-                    <RemoveCircleOutlineOutlined />
+                    <Check />
                   </button>
-                </TableCell>
-              )}
+                )}
+                {hasActions && (
+                  <>
+                    {editingRows[data.rowId] && typeof data.rowId === "number" && (
+                      <>
+                        <button
+                          className={classes.actionBtns}
+                          onClick={() => handleCancel(data.rowId)}
+                        >
+                          <Close />
+                        </button>
+                        <button
+                          className={classes.actionBtns}
+                          onClick={() => handleAdd(data.rowId)}
+                        >
+                          <Check />
+                        </button>
+                      </>
+                    )}
+                    {!editingRows[data.rowId] && (
+                      <button
+                        className={classes.actionBtns}
+                        onClick={() => setEditingRowData(data.rowId)}
+                      >
+                        <Create />
+                      </button>
+                    )}
+                  </>
+                )}
+                <button
+                  className={classes.actionBtns}
+                  onClick={() => {
+                    handleDelete(data.rowId);
+                  }}
+                >
+                  <RemoveCircleOutlineOutlined />
+                </button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -82,9 +82,9 @@ export const VitalSigns = () => {
         <div>
           <span>
             {realTimeData.heart_rate}
-            <span>g</span>
+            <span>c°</span>
           </span>
-          Sttus 1
+          Temperatura
         </div>
       </div>
     </Card>

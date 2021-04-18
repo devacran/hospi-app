@@ -35,7 +35,7 @@ export const PatientList: FC<PatientsListProps> = ({ rows }) => {
             {rows.map((row) => (
               <TableRow key={row.id}>
                 <TableCell align="right">{row.nss}</TableCell>
-                <TableCell align="right">
+                <TableCell style={{ color: "#3f94c7" }} align="right">
                   <Link to={`patients/${row.id}`}>{row.name}</Link>
                 </TableCell>
                 <TableCell align="right">{row.last_name}</TableCell>

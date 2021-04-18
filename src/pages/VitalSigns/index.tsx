@@ -11,7 +11,6 @@ import { Button } from "react-bootstrap";
 import { SubHeader } from "../../components/SubHeader";
 import appConfig from "../../config";
 
-import classes from "./styles.module.scss";
 
 export const VitalSigns = () => {
   const { id: patientId } = useParams<{ id: string }>();
@@ -84,6 +83,7 @@ export const VitalSigns = () => {
       return null;
     }
   };
+
   const handleUpdate = async (
     rowValues: Record<string, string | number>,
     rowId: number

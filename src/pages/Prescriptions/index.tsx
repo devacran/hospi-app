@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router";
+import { Button, Modal } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
+import { RemoveCircleOutlineOutlined } from "@material-ui/icons";
+import { SubHeader } from "../../components/SubHeader";
+import Select from "react-select/async";
 import {
   TableBuilder,
   rowCreator,
   RowCreator,
 } from "../../components/TableBuilder";
-import { SubHeader } from "../../components/SubHeader";
-import { Button, Modal } from "react-bootstrap";
-import { ListGroup } from "react-bootstrap";
-import Select from "react-select/async";
-import { RemoveCircleOutlineOutlined } from "@material-ui/icons";
 import classes from "./styles.module.scss";
+import appConfig from "../../config";
 
 type MedicineType = {
   id: number;
@@ -27,6 +30,8 @@ export const Prescriptions = () => {
     { id: 2, compound: "Otra medicina", unitPrice: 123, concentration: "23/g" },
     { id: 3, compound: "Otra mas", unitPrice: 123, concentration: "23/g" },
   ];
+  const { id: patientId } = useParams<{ id: string }>();
+
   const handleChange = (item: any) => {
     setSelectedItems([...selectedItems, item]);
   };
@@ -41,14 +46,23 @@ export const Prescriptions = () => {
       rowCreator(
         [
           {
+            value: i.id,
+            editable: false,
+            name: "medicine_id",
+          },
+          {
             value: i.compound + " " + i.concentration,
-            editable: true,
+            editable: false,
             name: "compound",
           },
-          { value: "---", editable: true, name: "asd" },
-          { value: "---", editable: true, name: "sd" },
-          { value: "every day", editable: true, name: "shs" },
-          { value: "today", editable: false, name: "shs" },
+          { value: "", editable: true, name: "dosis" },
+          { value: "", editable: true, name: "via_admin" },
+          { value: "every day", editable: true, name: "frequency" },
+          {
+            value: new Date().toLocaleDateString(),
+            editable: false,
+            name: "created_at",
+          },
         ],
         {
           edit: true,
@@ -60,7 +74,102 @@ export const Prescriptions = () => {
     setRowElements([...rowElements, ...rows]);
     setSelectedItems([]);
   };
-  console.log(rowElements);
+
+  const getMedicines = async () => {
+    try {
+      const { data } = await axios(`${appConfig.API}/medicines/`);
+      const medicines = data.data;
+      return medicines;
+    } catch (error) {
+      console.error(error);
+    }
+    return options;
+  };
+
+  const onSavePrescription = async (
+    rowValues: Record<string, string | number>
+  ): Promise<number | null> => {
+    try {
+      const params = { ...rowValues };
+      params.doctor_id = 1;
+      delete params["created_at"];
+      delete params["compound"];
+      const data = await axios(
+        `${appConfig.API}/patients/${patientId}/prescriptions`,
+        { method: "POST", params: params }
+      );
+      return data.data.id;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const {
+          data: { data: prescriptions },
+        } = await axios(`${appConfig.API}/patients/${patientId}/prescriptions`);
+        console.log(prescriptions);
+        const newRowsData: RowCreator[] = prescriptions.map(
+          (x: any, i: number) => {
+            const cols = [
+              {
+                value: x.prescription_id,
+                editable: false,
+                name: "prescription_id",
+              },
+              {
+                value: `${x.market_name} ${x.compound} ${x.concentration}`,
+                editable: false,
+                name: "medicine",
+              },
+              {
+                value: x.dosis,
+                editable: false,
+                name: "dosis",
+              },
+              {
+                value: x.via_admin,
+                editable: false,
+                name: "via_admin",
+              },
+              {
+                value: x.frequency,
+                editable: false,
+                name: "frequency",
+              },
+              {
+                value: new Date(x.created_at).toLocaleDateString(),
+                editable: false,
+                name: "date",
+              },
+            ];
+            return rowCreator(
+              cols,
+              {
+                edit: false,
+                editable: false,
+              },
+              x.prescription_id
+            );
+          }
+        );
+        setRowElements(newRowsData);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  const handleDelete = async (rowId: number) => {
+    await axios(`${appConfig.API}/patients/${patientId}/prescriptions`, {
+      method: "DELETE",
+      params: { id: rowId, patientId },
+    });
+    setRowElements(rowElements.filter((row) => row.rowId !== rowId));
+  };
+
   return (
     <>
       <SubHeader>
@@ -68,17 +177,19 @@ export const Prescriptions = () => {
         <Button onClick={() => setModal(true)}>Añadir Registro</Button>
       </SubHeader>
       <TableBuilder
-        hasActions={true}
+        hasActions={false}
         rowsData={rowElements}
-        cols={["Medicamento", "Dosis", "Via Admin", "Frecuencia", "Fecha"]}
-        onDelete={(rowId: number | string) => {
-          console.log(rowId, rowElements);
-          setRowElements(rowElements.filter((row) => row.rowId !== rowId));
-        }}
-        onAdd={() => Promise.reject(null)}
-        onCancel={() => {
-          console.log("hola");
-        }}
+        cols={[
+          "Id",
+          "Medicamento",
+          "Dosis",
+          "Via Admin",
+          "Frecuencia",
+          "Fecha",
+        ]}
+        onDelete={handleDelete as any}
+        onAdd={onSavePrescription}
+        onCancel={() => {}}
         onUpdate={() => Promise.reject(null)}
       />
       <Modal
@@ -95,7 +206,7 @@ export const Prescriptions = () => {
           <Select
             onChange={handleChange}
             placeholder={"Ingresa el nombre del medicamento"}
-            loadOptions={() => Promise.resolve(options)}
+            loadOptions={getMedicines}
             getOptionLabel={(o: any) => o.compound}
             noOptionsMessage={() => "Escribe para buscar"}
           />
