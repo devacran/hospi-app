@@ -11,7 +11,6 @@ import { Button } from "react-bootstrap";
 import { SubHeader } from "../../components/SubHeader";
 import appConfig from "../../config";
 
-
 export const VitalSigns = () => {
   const { id: patientId } = useParams<{ id: string }>();
 
@@ -103,7 +102,6 @@ export const VitalSigns = () => {
       method: "DELETE",
       params: { id: rowId, patientId },
     });
-    console.log("gola");
     setRowElements(rowElements.filter((row) => row.rowId !== rowId));
   };
   return (

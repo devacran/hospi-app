@@ -8,10 +8,12 @@ import { VitalSigns } from "./components/VitalSigns";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import appConfig from "../../config";
+import swal from "sweetalert";
 
 export const PatientDashboard = () => {
   const { id: patientId } = useParams<{ id: string }>();
   const [patientData, setPatientData] = useState<any>();
+
   useEffect(() => {
     (async () => {
       try {
@@ -20,7 +22,12 @@ export const PatientDashboard = () => {
         } = await axios(`${appConfig.API}/patients/${patientId}`);
         setPatientData(patient);
       } catch (e) {
-        console.error(e);
+        swal({
+          title: "Error",
+          text: "Ups parece que hubo un error",
+          icon: "error",
+          buttons: { confirm: true },
+        });
       }
     })();
   }, []);

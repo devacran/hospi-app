@@ -4,8 +4,8 @@ import { useParams } from "react-router";
 import { Button, Modal } from "react-bootstrap";
 import { ListGroup } from "react-bootstrap";
 import { RemoveCircleOutlineOutlined } from "@material-ui/icons";
-import { SubHeader } from "../../components/SubHeader";
 import Select from "react-select/async";
+import swal from "sweetalert";
 import {
   TableBuilder,
   rowCreator,
@@ -13,6 +13,7 @@ import {
 } from "../../components/TableBuilder";
 import classes from "./styles.module.scss";
 import appConfig from "../../config";
+import { SubHeader } from "../../components/SubHeader";
 
 type MedicineType = {
   id: number;
@@ -157,7 +158,12 @@ export const Prescriptions = () => {
         );
         setRowElements(newRowsData);
       } catch (e) {
-        console.error(e);
+        swal({
+          title: "Error",
+          text: "Ups parece que hubo un error",
+          icon: "error",
+          buttons: { confirm: true },
+        });
       }
     })();
   }, []);
