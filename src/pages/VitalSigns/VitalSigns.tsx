@@ -11,7 +11,7 @@ import { Button } from "react-bootstrap";
 import { SubHeader } from "../../components/SubHeader";
 import appConfig from "../../config";
 
-export const VitalSigns = () => {
+const VitalSigns = () => {
   const { id: patientId } = useParams<{ id: string }>();
 
   const [rowElements, setRowElements] = useState<RowCreator[]>([]);
@@ -129,3 +129,5 @@ export const VitalSigns = () => {
     </>
   );
 };
+
+export default VitalSigns;

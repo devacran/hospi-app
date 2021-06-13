@@ -11,7 +11,7 @@ export const Login: FC = () => {
   return (
     <div className={styles.container}>
       <Form onSubmit={onSubmit}>
-        <div className="h2">Ingarese sus credenciales</div>
+        <div className="h2">Ingrese sus credenciales</div>
         <Form.Group>
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" />
