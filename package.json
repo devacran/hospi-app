@@ -3,13 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
-    "node-sass": "^5.0.0",
+    "ramda": "^0.27.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
@@ -21,7 +19,6 @@
     "react-select": "^4.1.0",
     "socket.io-client": "^4.0.0",
     "sweetalert": "^2.1.2",
-    "typescript": "^4.1.5",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
@@ -49,6 +46,11 @@
     ]
   },
   "devDependencies": {
+    "typescript": "^4.1.5",
+    "node-sass": "^5.0.0",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@types/ramda": "^0.27.41",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.0",

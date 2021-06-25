@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 
+import TableBuilder from "../../components/TableBuilderV";
 import {
-  TableBuilder,
   rowCreator,
-  RowCreator,
-} from "../../components/TableBuilder";
+  RowObject,
+} from "../../components/TableBuilderV/TableBuilder";
 import { Button } from "react-bootstrap";
 import { SubHeader } from "../../components/SubHeader";
 import appConfig from "../../config";
@@ -14,30 +14,26 @@ import appConfig from "../../config";
 const VitalSigns = () => {
   const { id: patientId } = useParams<{ id: string }>();
 
-  const [rowElements, setRowElements] = useState<RowCreator[]>([]);
-
+  const [rowElements, setRowElements] = useState<RowObject[]>([]);
   useEffect(() => {
     (async () => {
       try {
         const { data: vitalSigns } = await axios(
           `${appConfig.API}/patients/${patientId}/vital-signs`
         );
-        console.log(vitalSigns);
-        const newRowsData: RowCreator[] = vitalSigns.map(
-          (x: any, i: number) => {
-            const cols = Object.keys(x.data).map((key) => {
-              return {
-                value:
-                  key === "created_at"
-                    ? new Date(x.data[key]).toLocaleDateString()
-                    : x.data[key],
-                editable: true,
-                name: key,
-              };
-            });
-            return { cols, rowId: x.id };
-          }
-        );
+        const newRowsData: RowObject[] = vitalSigns.map((x: any, i: number) => {
+          const cols = Object.keys(x.data).map((key) => {
+            return {
+              value:
+                key === "created_at"
+                  ? new Date(x.data[key]).toLocaleDateString()
+                  : x.data[key],
+              editable: true,
+              name: key,
+            };
+          });
+          return { cols, rowId: x.id };
+        });
 
         setRowElements(newRowsData);
       } catch (e) {
@@ -47,8 +43,8 @@ const VitalSigns = () => {
   }, []);
 
   const addRegistry = () => {
-    const row = rowCreator(
-      [
+    const row = rowCreator({
+      data: [
         { value: "", editable: true, name: "glucose_level" },
         { value: "", editable: true, name: "blood_pressureS" },
         { value: "", editable: true, name: "blood_pressureD" },
@@ -56,39 +52,30 @@ const VitalSigns = () => {
         { value: "", editable: true, name: "temp" },
         { value: "24/07/12", editable: false, name: "date" },
       ],
-      {
-        edit: true,
-        editable: true,
-      },
-      Math.floor(Math.random() * 500000).toString()
-    );
-    console.log(row);
+      isNew: true,
+      isEdit: true,
+      rowId: Math.floor(Math.random() * 500000),
+    });
     setRowElements([row, ...rowElements]);
   };
 
   const handleAdd = async (
-    rowValues: Record<string, string | number>
-  ): Promise<number | null> => {
-    try {
-      const params = { ...rowValues };
-      delete params["created_at"];
-      const data = await axios(
-        `${appConfig.API}/patients/${patientId}/vital-signs`,
-        { method: "POST", params: rowValues }
-      );
-      return data.data.id;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
+    values: Record<string, string | number>
+  ): Promise<number> => {
+    const params = { ...values };
+    delete params["created_at"];
+    const res = await axios(
+      `${appConfig.API}/patients/${patientId}/vital-signs`,
+      { method: "POST", params: values }
+    );
+    return res.data.id;
   };
 
   const handleUpdate = async (
-    rowValues: Record<string, string | number>,
+    values: Record<string, string | number>,
     rowId: number
-  ): Promise<number | null> => {
-    const params = { ...rowValues };
-    console.log(params);
+  ): Promise<number> => {
+    const params = { ...values };
     delete params["created_at"];
     const data = await axios(
       `${appConfig.API}/patients/${patientId}/vital-signs`,
@@ -98,12 +85,16 @@ const VitalSigns = () => {
   };
 
   const handleDelete = async (rowId: number) => {
-    await axios(`${appConfig.API}/patients/${patientId}/vital-signs`, {
-      method: "DELETE",
-      params: { id: rowId, patientId },
-    });
-    setRowElements(rowElements.filter((row) => row.rowId !== rowId));
+    const res = await axios(
+      `${appConfig.API}/patients/${patientId}/vital-signs`,
+      {
+        method: "DELETE",
+        params: { id: rowId, patientId },
+      }
+    );
+    return res.data.id;
   };
+
   return (
     <>
       <SubHeader>
@@ -111,7 +102,8 @@ const VitalSigns = () => {
         <Button onClick={addRegistry}>Añadir Registro</Button>
       </SubHeader>
       <TableBuilder
-        rowsData={rowElements}
+        rows={rowElements}
+        setRows={setRowElements}
         hasActions={true}
         cols={[
           "Temp",
@@ -121,10 +113,9 @@ const VitalSigns = () => {
           "Presion Arterial",
           "Fecha",
         ]}
-        onDelete={handleDelete as any}
         onAdd={handleAdd}
-        onCancel={() => {}}
         onUpdate={handleUpdate}
+        onDelete={handleDelete}
       />
     </>
   );
