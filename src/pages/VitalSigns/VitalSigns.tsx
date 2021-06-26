@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 
-import TableBuilder from "../../components/TableBuilderV";
+import TableBuilder from "../../components/TableBuilder";
 import {
   rowCreator,
   RowObject,
-} from "../../components/TableBuilderV/TableBuilder";
+} from "../../components/TableBuilder/TableBuilder";
 import { Button } from "react-bootstrap";
 import { SubHeader } from "../../components/SubHeader";
 import appConfig from "../../config";

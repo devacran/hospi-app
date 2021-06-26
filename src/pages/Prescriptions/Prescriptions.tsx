@@ -6,11 +6,11 @@ import { ListGroup } from "react-bootstrap";
 import { RemoveCircleOutlineOutlined } from "@material-ui/icons";
 import Select from "react-select/async";
 import swal from "sweetalert";
-import TableBuilder from "../../components/TableBuilderV";
+import TableBuilder from "../../components/TableBuilder";
 import {
   rowCreator,
   RowObject,
-} from "../../components/TableBuilderV/TableBuilder";
+} from "../../components/TableBuilder/TableBuilder";
 import classes from "./styles.module.scss";
 import appConfig from "../../config";
 import { SubHeader } from "../../components/SubHeader";
