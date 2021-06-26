@@ -32,7 +32,12 @@ const VitalSigns = () => {
               name: key,
             };
           });
-          return { cols, rowId: x.id };
+          return rowCreator({
+            data: cols,
+            rowId: x.id,
+            isNew: false,
+            isEdit: false,
+          });
         });
 
         setRowElements(newRowsData);
@@ -62,6 +67,7 @@ const VitalSigns = () => {
   const handleAdd = async (
     values: Record<string, string | number>
   ): Promise<number> => {
+    console.log(values);
     const params = { ...values };
     delete params["created_at"];
     const res = await axios(
@@ -75,6 +81,7 @@ const VitalSigns = () => {
     values: Record<string, string | number>,
     rowId: number
   ): Promise<number> => {
+    console.log(values);
     const params = { ...values };
     delete params["created_at"];
     const data = await axios(
@@ -94,7 +101,6 @@ const VitalSigns = () => {
     );
     return res.data.id;
   };
-
   return (
     <>
       <SubHeader>

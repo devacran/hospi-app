@@ -68,15 +68,20 @@ const TableBuilder = ({
       {}
     );
     try {
+      const index = rows.findIndex((x) => x.rowId === rowData.rowId);
+      const newRowsToShow = clone(rows);
       if (isUpdate) {
         await onUpdate(dataToSave, rowData.rowId);
+        newRowsToShow[index].isEdit = false;
+        newRowsToShow[index].data = newRowsToShow[index].editData;
       } else {
         const newRowId = await onAdd(dataToSave);
-        const index = rows.findIndex((x) => x.rowId === rowData.rowId);
-        const newRowsToShow = clone(rows);
         newRowsToShow[index].rowId = newRowId;
-        setRows(newRowsToShow);
+        newRowsToShow[index].isNew = false;
+        newRowsToShow[index].isEdit = false;
+        newRowsToShow[index].data = newRowsToShow[index].editData;
       }
+      setRows(newRowsToShow);
     } catch (error) {
       swal({
         title: "Error",
@@ -154,8 +159,10 @@ const TableBuilder = ({
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {cols.map((name) => (
-              <TableCell align="right">{name}</TableCell>
+            {cols.map((name, i) => (
+              <TableCell key={i} align="right">
+                {name}
+              </TableCell>
             ))}
             <TableCell align="right">Acciones</TableCell>
           </TableRow>
