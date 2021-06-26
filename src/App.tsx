@@ -9,7 +9,7 @@ import { Layout } from "./components/Layout";
 import { PatientDashboard } from "./pages/PatientDashboard";
 import VitalSigns from "./pages/VitalSigns";
 import { BillAccount } from "./pages/BillAccount";
-import { Prescriptions } from "./pages/Prescriptions";
+import Prescriptions from "./pages/Prescriptions";
 const App = () => {
   return (
     <BrowserRouter>

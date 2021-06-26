@@ -38,6 +38,7 @@ export const VitalSigns = () => {
         const { data: vitalSigns } = await axios(
           `${appConfig.API}/patients/${patientId}/vital-signs-last`
         );
+        console.log(vitalSigns.data);
         setRealTimeData(vitalSigns.data);
       } catch (e) {
         console.error(e);
@@ -60,28 +61,28 @@ export const VitalSigns = () => {
       <div className={styles.params}>
         <div>
           <span>
-            {`${realTimeData.blood_pressure_d}/${realTimeData.blood_pressure_s}`}
+            {`${realTimeData?.blood_pressure_d}/${realTimeData?.blood_pressure_s}`}
             <span>mmHg</span>
           </span>
           Presion Arterial
         </div>
         <div>
           <span>
-            {realTimeData.blood_pressure_s}
+            {realTimeData?.blood_pressure_s}
             <span>bpm</span>
           </span>
           Ritmo Cardiaco
         </div>
         <div>
           <span>
-            {realTimeData.glucose_level}
+            {realTimeData?.glucose_level}
             <span>mg/dl</span>
           </span>
           Glucosa
         </div>
         <div>
           <span>
-            {realTimeData.heart_rate}
+            {realTimeData?.heart_rate}
             <span>c°</span>
           </span>
           Temperatura
