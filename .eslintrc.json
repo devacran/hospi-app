@@ -2,8 +2,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "parser": "@typescript-eslint/parser", // Specifies the ESLint parser
@@ -19,6 +18,9 @@
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "double"],
+    "no-console": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "react/display-name": "off",
     //"@typescript-eslint/rule-name": "error",
     //"prettier/prettier": ["error"],
     "react/prop-types": 0
