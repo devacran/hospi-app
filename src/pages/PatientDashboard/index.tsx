@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import axios from "axios";
 
 import { Card, Button } from "react-bootstrap";
@@ -10,7 +10,7 @@ import { useParams } from "react-router";
 import appConfig from "../../config";
 import swal from "sweetalert";
 
-export const PatientDashboard = () => {
+export const PatientDashboard: FC = () => {
   const { id: patientId } = useParams<{ id: string }>();
   const [patientData, setPatientData] = useState<any>();
 

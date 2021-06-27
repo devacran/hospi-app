@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import classes from "./styles.module.scss";
 import cx from "classnames";
 
-export const Header = () => {
+export const Header: FC = () => {
   const location = useLocation();
   const patientId = location.pathname.split("/")[3];
   const childRoute = location.pathname.split("/")[4];

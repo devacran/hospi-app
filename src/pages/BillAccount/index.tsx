@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import classes from "./styles.module.scss";
 import { ChargesList } from "./components/ChargesList";
 
-export const BillAccount = () => {
+export const BillAccount: FC = () => {
   return (
     <>
       <ChargesList />

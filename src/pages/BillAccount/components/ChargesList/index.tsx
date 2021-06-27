@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import classes from "./styles.module.scss";
 import { Table, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const ChargesList = () => {
+export const ChargesList: FC = () => {
   return (
     <>
       <Table striped bordered hover>

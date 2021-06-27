@@ -10,7 +10,7 @@ import { PatientDashboard } from "./pages/PatientDashboard";
 import VitalSigns from "./pages/VitalSigns";
 import { BillAccount } from "./pages/BillAccount";
 import Prescriptions from "./pages/Prescriptions";
-const App = () => {
+const App: FC = () => {
   return (
     <BrowserRouter>
       <Switch>

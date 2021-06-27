@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Accessibility as AccessibilityIcon } from "@material-ui/icons";
 import { Navigation } from "react-minimal-side-navigation";
 
@@ -7,7 +7,7 @@ import Logo from "../../assets/Logo.svg";
 import { Link } from "react-router-dom";
 import { useLocation, useHistory } from "react-router";
 
-export const MainMenu = () => {
+export const MainMenu: FC = () => {
   const location = useLocation();
   const history = useHistory();
   return (
@@ -30,6 +30,7 @@ export const MainMenu = () => {
           {
             title: "Pacientes",
             itemId: "/app/patients",
+            // eslint-disable-next-line react/display-name
             elemBefore: () => <AccessibilityIcon />,
             subNav: [
               {

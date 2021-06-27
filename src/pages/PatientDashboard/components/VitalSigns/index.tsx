@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import appConfig from "../../../../config";
 import axios from "axios";
 import { Card, Button } from "react-bootstrap";
@@ -9,7 +9,7 @@ import cx from "classnames";
 import { io } from "socket.io-client";
 const ENDPOINT = "http://localhost:8080";
 
-export const VitalSigns = () => {
+export const VitalSigns: FC = () => {
   const { id: patientId } = useParams<{ id: string }>();
   const [realTimeData, setRealTimeData] = useState<any>({});
   const [mySocket, setMySocket] = useState<any>();

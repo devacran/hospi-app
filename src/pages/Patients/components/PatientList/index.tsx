@@ -15,8 +15,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 type PatientsListProps = {
-  rows: any[];
+  rows: unknown[];
 };
+
 export const PatientList: FC<PatientsListProps> = ({ rows }) => {
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 
@@ -11,7 +11,7 @@ import { Button } from "react-bootstrap";
 import { SubHeader } from "../../components/SubHeader";
 import appConfig from "../../config";
 
-const VitalSigns = () => {
+const VitalSigns: FC = () => {
   const { id: patientId } = useParams<{ id: string }>();
 
   const [rowElements, setRowElements] = useState<RowObject[]>([]);

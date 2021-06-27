@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { InputGroup, Button, FormControl } from "react-bootstrap";
 import axios from "axios";
 import classes from "./styles.module.scss";
@@ -6,7 +6,7 @@ import { PatientList } from "./components/PatientList";
 import appConfig from "../../config";
 import { SubHeader } from "../../components/SubHeader";
 
-export const Patients = () => {
+export const Patients: FC = () => {
   const [patientsList, setPatientsList] = useState([]);
   useEffect(() => {
     (async () => {

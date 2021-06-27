@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { Button, Modal } from "react-bootstrap";
@@ -21,7 +21,7 @@ type MedicineType = {
   unitPrice: number;
   concentration: string;
 };
-const Prescriptions = () => {
+const Prescriptions: FC = () => {
   const [modal, setModal] = useState(false);
   const [rowElements, setRowElements] = useState<RowObject[]>([]);
 
@@ -215,7 +215,7 @@ const Prescriptions = () => {
           <ListGroup>
             {selectedItems.map((i) => {
               return (
-                <ListGroup.Item className={classes.listItem}>
+                <ListGroup.Item className={classes.listItem} key={i.id}>
                   <span>
                     <Button onClick={() => handleRemoveItem(i)}>
                       <RemoveCircleOutlineOutlined />

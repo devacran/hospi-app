@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC } from "react";
 import { clone } from "ramda";
 import classes from "./styles.module.scss";
 import { Table, TextField } from "@material-ui/core";
@@ -50,7 +50,7 @@ type TableBuilderProps = {
 
 type CurrentRowType = Record<string, string | number>;
 
-const TableBuilder = ({
+const TableBuilder: FC<TableBuilderProps> = ({
   rows,
   setRows,
   cols,
@@ -58,7 +58,7 @@ const TableBuilder = ({
   onUpdate,
   onAdd,
   hasActions,
-}: TableBuilderProps): JSX.Element => {
+}) => {
   const handleSave = async (rowData: RowObject) => {
     const isUpdate = !rowData.isNew;
     const dataToSave = rowData.editData.reduce(
@@ -171,7 +171,7 @@ const TableBuilder = ({
           {rows.map((rowData: RowObject, rowIndex: number) => (
             <TableRow key={rowData.rowId}>
               {rowData.data.map((value, colIndex) => (
-                <TableCell align="right">
+                <TableCell align="right" key={colIndex}>
                   {value.editable && rowData.isEdit ? (
                     <TextField
                       name={value.name}

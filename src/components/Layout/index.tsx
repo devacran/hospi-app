@@ -4,7 +4,7 @@ import { Header } from "../Header";
 import classes from "./styles.module.scss";
 import { Container, Row } from "react-bootstrap";
 
-export const Layout = ({ children }: { children: JSX.Element }) => {
+export const Layout: FC = ({ children }) => {
   return (
     <div className={classes.main}>
       <div className={classes.menu}>
