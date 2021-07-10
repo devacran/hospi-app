@@ -62,7 +62,7 @@ const TableBuilder: FC<TableBuilderProps> = ({
   const handleSave = async (rowData: RowObject) => {
     const isUpdate = !rowData.isNew;
     const dataToSave = rowData.editData.reduce(
-      (dataToSave, { name, value }, i) => {
+      (dataToSave, { name, value }) => {
         return { ...dataToSave, [name]: value };
       },
       {}

@@ -2,14 +2,12 @@
   "name": "hospi_app",
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.tsx",
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
-    "eslint": "^7.29.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
     "ramda": "^0.27.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
@@ -18,7 +16,7 @@
     "react-minimal-side-navigation": "^1.8.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^1.1.5",
+    "react-scripts": "^4.0.3",
     "react-select": "^4.1.0",
     "socket.io-client": "^4.0.0",
     "sweetalert": "^2.1.2",
@@ -31,7 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cypress": "cypress open"
   },
   "browserslist": {
     "production": [
@@ -62,7 +61,11 @@
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/experimental-utils": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
+    "cypress": "^7.7.0",
+    "eslint": "^7.29.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "node-sass": "^6.0.1",

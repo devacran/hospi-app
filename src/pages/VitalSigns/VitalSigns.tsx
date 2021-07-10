@@ -21,7 +21,7 @@ const VitalSigns: FC = () => {
         const { data: vitalSigns } = await axios(
           `${appConfig.API}/patients/${patientId}/vital-signs`
         );
-        const newRowsData: RowObject[] = vitalSigns.map((x: any, i: number) => {
+        const newRowsData: RowObject[] = vitalSigns.map((x: any) => {
           const cols = Object.keys(x.data).map((key) => {
             return {
               value:

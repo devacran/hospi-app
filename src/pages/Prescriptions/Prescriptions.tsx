@@ -38,7 +38,7 @@ const Prescriptions: FC = () => {
   };
 
   const handleRemoveItem = (item: any) => {
-    const i = selectedItems.findIndex((item) => item.id === 1);
+    const i = selectedItems.findIndex((_item) => _item.id === item.id);
     const newSelectedItems = selectedItems.splice(i + 1, 1);
     setSelectedItems(newSelectedItems);
   };
@@ -106,49 +106,47 @@ const Prescriptions: FC = () => {
         const {
           data: { data: prescriptions },
         } = await axios(`${appConfig.API}/patients/${patientId}/prescriptions`);
-        const newRowsData: RowObject[] = prescriptions.map(
-          (x: any, i: number) => {
-            const cols = [
-              {
-                value: x.prescription_id,
-                editable: false,
-                name: "prescription_id",
-              },
-              {
-                value: `${x.market_name} ${x.compound} ${x.concentration}`,
-                editable: false,
-                name: "medicine",
-              },
-              {
-                value: x.dosis,
-                editable: false,
-                name: "dosis",
-              },
-              {
-                value: x.via_admin,
-                editable: false,
-                name: "via_admin",
-              },
-              {
-                value: x.frequency,
-                editable: false,
-                name: "frequency",
-              },
-              {
-                value: new Date(x.created_at).toLocaleDateString(),
-                editable: false,
-                name: "date",
-              },
-            ];
+        const newRowsData: RowObject[] = prescriptions.map((x: any) => {
+          const cols = [
+            {
+              value: x.prescription_id,
+              editable: false,
+              name: "prescription_id",
+            },
+            {
+              value: `${x.market_name} ${x.compound} ${x.concentration}`,
+              editable: false,
+              name: "medicine",
+            },
+            {
+              value: x.dosis,
+              editable: false,
+              name: "dosis",
+            },
+            {
+              value: x.via_admin,
+              editable: false,
+              name: "via_admin",
+            },
+            {
+              value: x.frequency,
+              editable: false,
+              name: "frequency",
+            },
+            {
+              value: new Date(x.created_at).toLocaleDateString(),
+              editable: false,
+              name: "date",
+            },
+          ];
 
-            return rowCreator({
-              data: cols,
-              isEdit: false,
-              isNew: false,
-              rowId: x.prescription_id,
-            });
-          }
-        );
+          return rowCreator({
+            data: cols,
+            isEdit: false,
+            isNew: false,
+            rowId: x.prescription_id,
+          });
+        });
         setRowElements(newRowsData);
       } catch (e) {
         swal({

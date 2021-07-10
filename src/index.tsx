@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
-console.log("hola");
 ReactDOM.render(
   <React.StrictMode>
     <App />

@@ -15,7 +15,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 type PatientsListProps = {
-  rows: unknown[];
+  rows: Record<string, string>[];
 };
 
 export const PatientList: FC<PatientsListProps> = ({ rows }) => {
@@ -47,7 +47,7 @@ export const PatientList: FC<PatientsListProps> = ({ rows }) => {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TablePagination
+              {/* <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={3}
                 count={rows.length}
@@ -59,7 +59,7 @@ export const PatientList: FC<PatientsListProps> = ({ rows }) => {
                 }}
                 onChangePage={() => null}
                 onChangeRowsPerPage={() => null}
-              />
+              /> */}
             </TableRow>
           </TableFooter>
         </Table>

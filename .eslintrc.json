@@ -19,10 +19,10 @@
     "semi": ["error", "always"],
     "quotes": ["error", "double"],
     "no-console": "error",
-    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
     "react/display-name": "off",
-    //"@typescript-eslint/rule-name": "error",
-    //"prettier/prettier": ["error"],
+    // "@typescript-eslint/rule-name": "error",
+    // "prettier/prettier": ["error"],
     "react/prop-types": 0
   }
 }
