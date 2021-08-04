@@ -34,17 +34,17 @@ export const MainMenu: FC = () => {
             elemBefore: () => <AccessibilityIcon />,
             subNav: [
               {
-                title: "Projects",
+                title: "Dashboard",
                 itemId: "/about/projects",
               },
               {
-                title: "Members",
+                title: "Administrar",
                 itemId: "/about/members",
               },
             ],
           },
           {
-            title: "Another Tab",
+            title: "Preferencias",
             itemId: "/another",
             subNav: [
               {
