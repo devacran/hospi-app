@@ -120,17 +120,17 @@ const Prescriptions: FC = () => {
             },
             {
               value: x.dosis,
-              editable: false,
+              editable: true,
               name: "dosis",
             },
             {
               value: x.via_admin,
-              editable: false,
+              editable: true,
               name: "via_admin",
             },
             {
               value: x.frequency,
-              editable: false,
+              editable: true,
               name: "frequency",
             },
             {
@@ -139,7 +139,6 @@ const Prescriptions: FC = () => {
               name: "date",
             },
           ];
-
           return rowCreator({
             data: cols,
             isEdit: false,
@@ -169,7 +168,7 @@ const Prescriptions: FC = () => {
     );
     return res.data.id;
   };
-  console.log(rowElements);
+
   return (
     <>
       <SubHeader>
