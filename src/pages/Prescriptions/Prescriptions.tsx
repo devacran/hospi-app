@@ -169,6 +169,22 @@ const Prescriptions: FC = () => {
     return res.data.id;
   };
 
+  const handleUpdate = async ({
+    dosis,
+    via_admin,
+    frequency,
+    prescription_id,
+  }: Record<string, string | number>): Promise<number> => {
+    const data = await axios(
+      `${appConfig.API}/patients/${patientId}/prescriptions`,
+      {
+        method: "PUT",
+        params: { prescription_id, dosis, frequency, via_admin },
+      }
+    );
+    return data.data.id;
+  };
+
   return (
     <>
       <SubHeader>
@@ -189,7 +205,7 @@ const Prescriptions: FC = () => {
         ]}
         onDelete={handleDelete}
         onAdd={onSavePrescription}
-        onUpdate={() => Promise.reject(null)}
+        onUpdate={handleUpdate}
       />
       <Modal
         show={modal}

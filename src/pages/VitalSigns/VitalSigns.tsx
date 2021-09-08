@@ -81,7 +81,6 @@ const VitalSigns: FC = () => {
     values: Record<string, string | number>,
     rowId: number
   ): Promise<number> => {
-    console.log(values);
     const params = { ...values };
     delete params["created_at"];
     const data = await axios(
